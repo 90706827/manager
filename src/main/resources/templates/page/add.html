@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../css/merchant.css" rel="stylesheet">
+	<link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+<input type="hidden" value="factoryManage" id="pageTitle">
+<div class="lpfixed-content">
+   <div class="lpscrolly-content">
+		<!--内容-->
+		<div class="lpcontent-box">
+		<form>
+			<div class="lpsearch-box lpcontent-shadow">
+				<div class="lppage">当前位置：设备管理&nbsp;〉&nbsp;厂家管理&nbsp;〉&nbsp;新增</div>
+				<div class="lpdetail-table-box">
+					<table class="lpdetail-table">
+						<tbody>
+							<tr>
+								<td class="lpdetail-table-name" width="160">用户登录名：</td>
+								<td class="lptable-gary lpborder-right-none">superAdmin</td>
+								<td class="lptable-gary lpborder-left-none" width="140"></td>
+							</tr>
+							<tr>
+								<td class="lpdetail-table-name">厂商代码</td>
+								<td class="lpborder-right-none"><input id="factory-code" type="text" value="" class="lpsearch-input-full lpbox-sizing" placeholder="请输入厂商代码"/></td>
+								<td class="lpborder-left-none"><div class="lpsearch-td-wranIcon" data-container="body" data-toggle="popover" data-placement="right"  data-content="必填"></div></td>
+							</tr>
+							<tr>
+								<td class="lpdetail-table-name">厂商名称</td>
+								<td class="lpborder-right-none"><input id="factory-name" type="text" value="" class="lpsearch-input-full lpbox-sizing" placeholder="请输入厂商代码"/></td>
+								<td class="lpborder-left-none"><div class="lpsearch-td-wranIcon" data-container="body" data-toggle="popover" data-placement="right"  data-content="必填，请输入6位数以上密码"></div></td>
+							</tr>
+							
+						</tbody>
+					</table>
+				</div>
+				<table class="lpsearch-tableBtn">
+					<tbody>
+						<tr>
+							<td width="50%"><input type="submit" value="保存" class="lpsearch-btn lpbg-yellow"/></td>
+							<td><input type="button" value="返回" class="lpsearch-btn lpbg-yellow"/></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="lpsearch-reminder">注：如果您不选择新密码提示问题，默认则将您旧的密码提示问题更改为新回答</div>
+			</div>
+		</div>
+	</form>
+	<!--菜单-->
+	<div class="lpmenu-box lpbox-sizing">
+			<div class="lpmenu-boxbg"></div>
+			<table class="lpmenu-contraction">
+				<tr>
+					<td>
+						<div class="contraction" onclick="menuBoxToggle()"></div>
+					</td>
+				</tr>
+			</table>
+			<div class="lpmenu-content-box">
+				<div id="accordion" role="tablist" aria-multiselectable="true">
+					<!-- 设备管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab" id="headingOne">
+							<a class="lpbox-sizing" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+							 aria-expanded="true" aria-controls="collapseOne">
+								<span class="lpmenu-icon lpmenu-icon-one"></span>
+								<span class="lpmenu-title">设备管理</span>
+								<span class="lpmenu-ui-icon-left lpmenu-ui-icon"></span>
+							</a>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse lppanel-collapse" role="tabpanel" aria-labelledby="headingOne">
+							<a href="factoryManage.html" class="lpbox-sizing" lp-menu="factoryManage">厂家管理</a>
+							<a href="index.html" class="lpbox-sizing" lp-menu="UserManagement">产品型号</a>
+							<a href="loadEquipmentDetail.html" class="lpbox-sizing" lp-menu="loadEquipmentDetail">导出设备明细</a>
+							<a href="javascript:;" class="lpbox-sizing" lp-menu="">设备明细</a>
+						</div>
+					</div>
+					<!-- 应用管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<!-- lp-menu 对应每个页面的 pageTitle -->
+							<a class="lpbox-sizing" href="QuickPayHistoryQuery.html" lp-menu="QuickPayHistoryQuery">
+								<span class="lpmenu-icon lpmenu-icon-two"></span>
+								<span class="lpmenu-title">应用管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 应用分组 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-three"></span>
+								<span class="lpmenu-title">应用分组</span>
+							</a>
+						</div>
+					</div>
+					<!-- 参数维护 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-four"></span>
+								<span class="lpmenu-title">参数维护</span>
+							</a>
+						</div>
+					</div>
+					<!-- 母POS管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-five"></span>
+								<span class="lpmenu-title">母POS管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 终端TUSN管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-six"></span>
+								<span class="lpmenu-title">终端TUSN管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab"">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-seven"></span>
+								<span class="lpmenu-title">设备主密钥管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-eight"></span>
+								<span class="lpmenu-title">OTA管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 参数维护 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-nine"></span>
+								<span class="lpmenu-title">底层应用管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-ten"></span>
+								<span class="lpmenu-title">全辖应用信息</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 菜单结束 -->
+	</div>
+</div>
+<!--mian头header-->
+<div class="lpheader-box lpshadow-down lpbox-sizing">
+	<a href="welcome.html" class="lplogo lppull-left"></a>
+	<a class="lppull-right lpexit-box" title="退出" href="login.html">
+		<div class="lpexit"></div>
+	</a>
+	<div class="lppull-right lpheader-text" title="用户名"><span class="lppull-left lpheader-user lphelp"></span>admin1002</div>
+</div>
+<!--加载-->
+<div id="LoadingBlack" class="modal fade hide" style="border:none;padding:0;" tabindex="-1" role="dialog" backdrop="true"  aria-hidden="true"></div>
+<img id="Loading" class="loading" src="../images/Merchant/loading.gif">
+<!--提示-->
+<div class="lpoperate-tipbox">
+	<div class="lpoperate-tip-icon lpsearch-operate-success"></div>
+	<div class="lpoperate-tip-text lpcolor-blue">保存成功</div>
+	<div class="lpoperate-tip-jumpBox">还有&nbsp;<span class="lpcolor-yellow" id="jumpSec">5</span>&nbsp;秒将<a class="lpoperate-tip-jump lpcolor-red" href="detail.html">&nbsp;跳转&nbsp;</a>到详情页面</div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/merchant.js"></script>
+<script src="../js/bootstrap-datetimepicker.js"></script>
+<script src="../js/bootstrap-datetimepicker.fr.js"></script>
+<script src="../js/jquery.poshytip.js"></script>
+<script src="../js/sh_main.min.js"></script>
+<script>
+	$("#submit").click(function(e){
+		e.stopPropagation();
+		$("input").removeClass("lpinput-error");
+		$("input").poshytip("hide")
+		var fCode = $.trim($("#factory-code").val());
+		var fName = $.trim($("#factory-name").val());
+		if(fCode===""){
+			$("#factory-code").poshytip('show')
+			$("#factory-code").poshytip('update', "厂商代码不能为空" )
+			$("#factory-code").addClass("lpinput-error");
+		}else if(fName===""){
+			$("#factory-name").poshytip('show')
+			$("#factory-name").poshytip('update', "厂商名称不能为空" )
+			$("#factory-name").addClass("lpinput-error");
+		}else{
+			setTimeout(function(){
+				$('#LoadingBlack').modal('hide');
+				$('#Loading').hide();
+				$(".lpoperate-tipbox").slideDown();
+				setInterval("jumpSecFun()",1000);
+				setTimeout(function(){
+					jumpSec = 5;
+					$(".lpoperate-tipbox").slideUp();	$(location).attr("href","factoryManag.html")
+				},6000);
+			},2000)
+			$('#LoadingBlack').modal('show');
+			$('#Loading').show();
+		}
+	});
+	$("#jumpSec").text("5");
+	var jumpSec = 5;
+	function jumpSecFun(){
+		if(jumpSec>0){
+			jumpSec = jumpSec-1;
+		}
+		$("#jumpSec").text(jumpSec);
+	}
+	
+/*
+*@autor：wangliping
+*Desccription:验证form
+*Created on 2018年03月14日
+*Modified date 2018年03月14日
+*/
+$('#factory-code').poshytip({
+	content:'请输入厂商代码',
+	className: 'tip-yellow',
+	showOn: 'none',
+	alignTo: 'target',
+	alignX: 'right',
+	alignY: 'center',
+	offsetX: 5,
+});
+$('#factory-name').poshytip({
+	content:'请输入厂商名称',
+	className: 'tip-yellow',
+	showOn: 'none',
+	alignTo: 'target',
+	alignX: 'right',
+	alignY: 'center',
+	offsetX: 5,
+});
+
+$(document).click(function(){
+	$("input").poshytip("hide")
+})
+</script>
+</body>
+</html>

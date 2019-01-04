@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../css/merchant.css" rel="stylesheet">
+	<link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+<input type="hidden" value="success" id="pageTitle">
+<div class="lpfixed-content">
+   <div class="lpscrolly-content">
+		<!--内容-->
+		<div class="lpcontent-box">
+			<div class="lpsearch-box lpcontent-shadow">
+				<div class="lppage">当前位置：用户信息管理&nbsp;&nbsp;&nbsp;〉&nbsp;&nbsp;&nbsp;修改登录密码&nbsp;&nbsp;&nbsp;〉&nbsp;&nbsp;&nbsp;操作成功</div>
+				<div class="lpsearch-operate">
+					<div class="lpsearch-operate-img lpsearch-operate-success"></div>
+					<div class="lpsearch-operate-text">操作成功</div>
+					<table class="lpsearch-tableBtn">
+					<tbody>
+						<tr>
+							<td width="100%"><div class="lpsearch-btn lpbg-red">返回</div></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	<!--菜单-->
+	<div class="lpmenu-box lpbox-sizing">
+			<div class="lpmenu-boxbg"></div>
+			<table class="lpmenu-contraction">
+				<tr>
+					<td>
+						<div class="contraction" onclick="menuBoxToggle()"></div>
+					</td>
+				</tr>
+			</table>
+			<div class="lpmenu-content-box">
+				<div id="accordion" role="tablist" aria-multiselectable="true">
+					<!-- 设备管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab" id="headingOne">
+							<a class="lpbox-sizing" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+							 aria-expanded="true" aria-controls="collapseOne">
+								<span class="lpmenu-icon lpmenu-icon-one"></span>
+								<span class="lpmenu-title">设备管理</span>
+								<span class="lpmenu-ui-icon-left lpmenu-ui-icon"></span>
+							</a>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse lppanel-collapse" role="tabpanel" aria-labelledby="headingOne">
+							<a href="factoryManage.html" class="lpbox-sizing" lp-menu="factoryManage">厂家管理</a>
+							<a href="index.html" class="lpbox-sizing" lp-menu="UserManagement">产品型号</a>
+							<a href="loadEquipmentDetail.html" class="lpbox-sizing" lp-menu="loadEquipmentDetail">导出设备明细</a>
+							<a href="javascript:;" class="lpbox-sizing" lp-menu="">设备明细</a>
+						</div>
+					</div>
+					<!-- 应用管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<!-- lp-menu 对应每个页面的 pageTitle -->
+							<a class="lpbox-sizing" href="QuickPayHistoryQuery.html" lp-menu="QuickPayHistoryQuery">
+								<span class="lpmenu-icon lpmenu-icon-two"></span>
+								<span class="lpmenu-title">应用管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 应用分组 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-three"></span>
+								<span class="lpmenu-title">应用分组</span>
+							</a>
+						</div>
+					</div>
+					<!-- 参数维护 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-four"></span>
+								<span class="lpmenu-title">参数维护</span>
+							</a>
+						</div>
+					</div>
+					<!-- 母POS管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-five"></span>
+								<span class="lpmenu-title">母POS管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 终端TUSN管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-six"></span>
+								<span class="lpmenu-title">终端TUSN管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab"">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-seven"></span>
+								<span class="lpmenu-title">设备主密钥管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-eight"></span>
+								<span class="lpmenu-title">OTA管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 参数维护 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-nine"></span>
+								<span class="lpmenu-title">底层应用管理</span>
+							</a>
+						</div>
+					</div>
+					<!-- 设备主密钥管理 -->
+					<div class="lppanel panel">
+						<div class="lppanel-heading" role="tab">
+							<a class="lpbox-sizing" href="#" lp-menu="">
+								<span class="lpmenu-icon lpmenu-icon-ten"></span>
+								<span class="lpmenu-title">全辖应用信息</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 菜单结束 -->
+	</div>
+</div>
+<!--mian头header-->
+<div class="lpheader-box lpshadow-down lpbox-sizing">
+	<a href="welcome.html" class="lplogo lppull-left"></a>
+	<a class="lppull-right lpexit-box" title="退出" href="login.html">
+		<div class="lpexit"></div>
+	</a>
+	<div class="lppull-right lpheader-text" title="用户名"><span class="lppull-left lpheader-user lphelp"></span>admin1002</div>
+</div>
+<!--加载-->
+<div id="LoadingBlack" class="modal fade hide" style="border:none;padding:0;" tabindex="-1" role="dialog" backdrop="true"  aria-hidden="true"></div>
+<img id="Loading" class="loading" src="../images/Merchant/loading.gif">
+<!--提示-->
+<div class="modal fade  bs-example-modal-sm" id="commonWarn" tabindex="-1" role="dialog" aria-labelledby="commonWarn" backdrop="true"  aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+       	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h5>提示</h5>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="lpsearch-btn lpbg-red" data-dismiss="modal">我知道了</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/merchant.js"></script>
+<script src="../js/bootstrap-datetimepicker.js"></script>
+<script src="../js/bootstrap-datetimepicker.fr.js"></script>
+<script src="../js/jquery.poshytip.js"></script>
+<script src="../js/sh_main.min.js"></script>
+<script>
+/*
+*@autor：wangliping
+*Desccription:菜单点击折叠样式
+*Created on 2017年12月12日
+*Modified date 2017年12月12日
+*/
+$('.collapse').on('hidden.bs.collapse', function() {
+	$(this).prev(".lppanel-heading").find(".lpmenu-ui-icon").removeClass("lpmenu-ui-icon-down").addClass("lpmenu-ui-icon-left");
+});
+$('.collapse').on('shown.bs.collapse', function() {
+	$(this).prev(".lppanel-heading").find(".lpmenu-ui-icon").removeClass("lpmenu-ui-icon-left").addClass("lpmenu-ui-icon-down");
+});
+$(function(){
+	menuFun()
+	contentWith();
+})
+$(window).resize(function () {
+    contentWith();
+});
+/*
+*@autor：wangliping
+*Desccription:点击菜单出发的样式
+*Created on 2017年12月12日
+*Modified date 2017年12月12日
+*/
+
+$(".lppanel-collapse a").click(function(){
+	$("lppanel-collapse a").removeClass("lppanel-collapse-active");
+	$(this).addClass("lppanel-collapse-active");
+	$(".lppanel-collapse").removeClass("in");
+	$(this).parent(".lppanel-collapse").addClass("in");
+	$(".lppanel-collapse a").removeClass("lppanel-collapse-active");
+	$(this).addClass("lppanel-collapse-active");
+	$(".lppanel-heading").removeClass("lppanel-heading-active");
+	$(this).parent(".lppanel-collapse").prev(".lppanel-heading").addClass("lppanel-heading-active");
+	$(this).parent(".lppanel-collapse").prev(".lppanel-heading").find(".lpmenu-ui-icon").removeClass("lpmenu-ui-icon-left").addClass("lpmenu-ui-icon-down");
+})
+
+</script>
+</body>
+</html>
