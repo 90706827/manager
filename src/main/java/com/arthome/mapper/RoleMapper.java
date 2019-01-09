@@ -1,9 +1,11 @@
 package com.arthome.mapper;
 
 import com.arthome.entity.Role;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
 

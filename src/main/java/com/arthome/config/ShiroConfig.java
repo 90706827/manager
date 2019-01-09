@@ -60,8 +60,11 @@ public class ShiroConfig implements Logger{
 
         // 设置拦截器
         Map<String, String> filterMap = new LinkedHashMap<>();
-        //游客，开发权限
-        filterMap.put("/guest/**", "anon");
+        //静态文件访问权限
+        filterMap.put("/css/**", "anon");
+        filterMap.put("/fonts/**", "anon");
+        filterMap.put("/images/**", "anon");
+        filterMap.put("/js/**", "anon");
         //用户，需要角色权限 “user”
         filterMap.put("/user/**", "roles[user,admin]");
         //管理员，需要角色权限 “admin”

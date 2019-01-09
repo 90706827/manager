@@ -1,15 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:th="http://www.w3.org/1999/xhtml"
-      xsi:schemaLocation="http://www.thymeleaf.org ">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	  xmlns:v-on="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>登录页面</title>
+	<meta charset="UTF-8"/>
+	<title>综合管理平台</title>
+	<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+	<link th:href="@{/css/merser-login.css}" rel="stylesheet" />
 </head>
+
 <body>
-<form action="#" th:action="@{/login}" method="post">
-    <input type="text" id="userName" name="userName" value="admin"/>
-    <input type="password" id="passWord" name="passWord" value="admin"/>
-    <input type="submit" value="登录"/>
-</form>
+	<div class="container-manage-box">
+		<!--header wlp start-->
+		<div class="header-box">
+			<div class="screen-width">
+				<img class="logo" th:src="@{/images/mananerImg/logo.png}"/>
+				<div class="" style="clear:both;"></div>
+			</div>
+		</div>
+		<!--header wlp end-->
+		<!--banner wlp start-->
+		<div class="banner-box">
+			<div class="banner-width">
+				<div class="banner-img"></div>
+			</div>
+
+			<div class="login-screen-box">
+				<div class="login-box">
+					<form>
+						<div class="login-way-box">
+							<div class="login-way">账户登录</div>
+						</div>
+						<div class="login-content-box active">
+						
+							<div class="login-content">
+								<div class="login-input-box">
+									<div class="login-input-name">用户名</div>
+									<input class="login-input" />
+								</div>
+							</div>
+							<div class="login-content">
+								<div class="login-input-box">
+									<div class="login-input-name">密码</div>
+									<input class="login-input" />
+								</div>
+							</div>
+							<div class="login-content">
+								<div class="login-input-box">
+									<div class="login-input-name">验证码</div>
+									<input id="verify_code" class="login-input" />
+								</div>
+								<div class="login-code">
+									<img th:src="@{/images/mananerImg/yanma.png}"/>
+								</div>
+							</div>
+							<div class="login-error"></div>
+							<input type="button" id="login-btn" class="login-btn"  v-on:click="post()" value="登录" />
+							<a href="forgetPassword.html" class="forgot-password"></a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--banner wlp end-->
+		<div class="bottom-box">© 综合管理平台</div>
+	</div>
+	<script th:inline="javascript">
+			var vue = new Vue({
+				el: '#app',
+				data() {
+					return {
+						info: null
+					}
+				},
+				mounted() {
+					axios
+					.get('http://localhost:8080/user/123456789')
+					.then(response => (this.info = response))
+					.catch(response => Console.log(response))
+				}
+			});
+
+</script>
+	<script th:src = "@{js/vue.js}"></script>
+	<script th:src = "@{js/axios/axios.js}"></script>
 </body>
+
 </html>
