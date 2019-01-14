@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>综合管理平台</title>
+</head>
+
+<body>
+<div id="vueBox" class="login_list">
+    <div class="login_title">短信验证码：</div>
+    <input class="auth_input" type="text"  placeholder="输入验证码" />
+    <div v-show="sendAuthCode" class="auth_text auth_text_blue"  v-on:click="getAuthCode()">获取验证码</div>
+    <div v-show="!sendAuthCode" class="auth_text"> <h5 class="auth_text_blue">{{auth_time}} </h5> 秒之重新发送验证码</div>
+</div>
+<script th:inline="javascript">
+    var vm = new Vue({
+        el: "vueBox",
+        data: {
+            sendAuthCode:true,
+            auth_time: 0,
+        },
+        methods: {
+        getAuthCode:function () {
+         this.sendAuthCode = false;
+         this.auth_time = 6;
+
+        }
+    }
+});
+</script>
+<script th:src="@{/js/vue/vue.js}"></script>
+<script th:src="@{/js/axios/axios.js}"></script>
+</body>
+</html>

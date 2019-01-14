@@ -36,6 +36,15 @@ spring:
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   #thymeleaf配置,这里是可以省略的，因为默认配置已经足够
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  #设置热部署目录，添加那个目录的文件需要的restart
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
   thymeleaf:
     #关闭缓存，及时刷新页面,这一点很重要
     cache: false

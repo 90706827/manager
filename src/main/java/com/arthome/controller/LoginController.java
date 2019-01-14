@@ -1,7 +1,9 @@
 package com.arthome.controller;
 
+import com.arthome.config.Logger;
 import com.arthome.service.RoleService;
 import com.arthome.service.UserService;
+import com.arthome.utils.VerifyCodeUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,6 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * ClassName LoginController
@@ -21,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Version 1.0
  **/
 @Controller
-public class LoginController {
+public class LoginController implements Logger {
 
 
     @Autowired
@@ -43,20 +50,30 @@ public class LoginController {
         return "error";
     }
 
-    @RequestMapping(value = "/index")
-    public String index() {
-        return "index";
+    @RequestMapping(value = "/code", method = RequestMethod.GET)
+    public void getYzm(HttpServletResponse response, HttpServletRequest request) {
+        System.out.println("a");
+        try {
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.setContentType("image/jpeg");
+
+            //生成随机字串
+            String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
+            //存入会话session
+            HttpSession session = request.getSession(true);
+            session.setAttribute("_code", verifyCode.toLowerCase());
+            //生成图片
+            int w = 146, h = 33;
+            VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
+        } catch (Exception e) {
+            logger.error("获取验证码异常：%s", e.getMessage());
+        }
     }
 
-    //post登录
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@Param("userName") String userName, @Param("passWord") String passWord) {
-        System.out.println(userName + "|" + passWord);
-        //添加用户认证信息
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, passWord);
-        //进行验证，这里可以捕获异常，然后返回对应信息
-        subject.login(usernamePasswordToken);
+    @RequestMapping(value = "/index")
+    public String index() {
         return "index";
     }
 
@@ -66,6 +83,23 @@ public class LoginController {
         return "login";
     }
 
+    //post登录
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest request,@Param("userName") String userName, @Param("passWord") String passWord, @Param("code")String code) {
+        System.out.println(userName + "|" + passWord+ "|" + code);
+        //添加用户认证信息
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, passWord);
+        //进行验证，这里可以捕获异常，然后返回对应信息
+        subject.login(usernamePasswordToken);
+        return "index";
+    }
+
+    //登出
+    @RequestMapping(value = "/logout")
+    public String logout() {
+        return "logout";
+    }
 //    //数据初始化
 //    @RequestMapping(value = "/addUser")
 //    public String addUser(@RequestBody Map<String,Object> map){
@@ -80,9 +114,11 @@ public class LoginController {
 //        return "addRole is ok! \n" + role;
 //    }
 
-    //登出
-    @RequestMapping(value = "/logout")
-    public String logout() {
-        return "logout";
+    @RequestMapping(value = "/login/tel")
+    public String telCode(HttpServletRequest request) {
+        //存入会话session
+        HttpSession session = request.getSession(true);
+        session.setAttribute("auth_time", 1);
+        return "telcode";
     }
 }

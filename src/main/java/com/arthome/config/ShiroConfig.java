@@ -70,7 +70,8 @@ public class ShiroConfig implements Logger{
         //管理员，需要角色权限 “admin”
         filterMap.put("/admin/**", "roles[admin,user]");
         //开放登陆接口
-        filterMap.put("/login", "anon");
+        filterMap.put("/login/**", "anon");
+        filterMap.put("/code", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
         filterMap.put("/**", "authc");

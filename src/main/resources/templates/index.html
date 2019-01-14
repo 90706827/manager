@@ -12,10 +12,9 @@
     <input type="button" v-on:click="post()" value="点击"/>
 </div>
 <script th:inline="javascript">
-<div id="app">
-			{{ info }}
-		</div>
-		<script th:inline="javascript">
+<div id="app">{{ info }}</div>
+
+<script th:inline="javascript">
 			var vue = new Vue({
 				el: '#app',
 				data() {
@@ -33,7 +32,7 @@
 
 </script>
 
-<script th:src = "@{js/vue.js}"></script>
-<script th:src = "@{js/axios/axios.js}"></script>
+<script th:src = "@{/js/vue.js}"></script>
+<script th:src = "@{/js/axios/axios.js}"></script>
 </body>
 </html>

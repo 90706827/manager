@@ -1,89 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml"
-	  xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+>
 
 <head>
-	<meta charset="UTF-8"/>
-	<title>综合管理平台</title>
-	<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
-	<link th:href="@{/css/merser-login.css}" rel="stylesheet" />
+    <meta charset="UTF-8"/>
+    <title>综合管理平台</title>
+    <script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+    <script th:src="@{/js/axios/axios.min.js}"></script>
+    <script th:src="@{/js/vue/vue.min.js}"></script>
+    <link th:href="@{/css/merser-login.css}" rel="stylesheet"/>
 </head>
 
 <body>
-	<div class="container-manage-box">
-		<!--header wlp start-->
-		<div class="header-box">
-			<div class="screen-width">
-				<img class="logo" th:src="@{/images/mananerImg/logo.png}"/>
-				<div class="" style="clear:both;"></div>
-			</div>
-		</div>
-		<!--header wlp end-->
-		<!--banner wlp start-->
-		<div class="banner-box">
-			<div class="banner-width">
-				<div class="banner-img"></div>
-			</div>
+<div class="container-manage-box">
+    <!--header wlp start-->
+    <div class="header-box">
+        <div class="screen-width">
+            <img class="logo" th:src="@{/images/mananerImg/logo.png}"/>
+            <div class="" style="clear:both;"></div>
+        </div>
+    </div>
+    <!--header wlp end-->
+    <!--banner wlp start-->
+    <div class="banner-box">
+        <div class="banner-width">
+            <div class="banner-img"></div>
+        </div>
 
-			<div class="login-screen-box">
-				<div class="login-box">
-					<form>
-						<div class="login-way-box">
-							<div class="login-way">账户登录</div>
-						</div>
-						<div class="login-content-box active">
-						
-							<div class="login-content">
-								<div class="login-input-box">
-									<div class="login-input-name">用户名</div>
-									<input class="login-input" />
-								</div>
-							</div>
-							<div class="login-content">
-								<div class="login-input-box">
-									<div class="login-input-name">密码</div>
-									<input class="login-input" />
-								</div>
-							</div>
-							<div class="login-content">
-								<div class="login-input-box">
-									<div class="login-input-name">验证码</div>
-									<input id="verify_code" class="login-input" />
-								</div>
-								<div class="login-code">
-									<img th:src="@{/images/mananerImg/yanma.png}"/>
-								</div>
-							</div>
-							<div class="login-error"></div>
-							<input type="button" id="login-btn" class="login-btn"  v-on:click="post()" value="登录" />
-							<a href="forgetPassword.html" class="forgot-password"></a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!--banner wlp end-->
-		<div class="bottom-box">© 综合管理平台</div>
-	</div>
-	<script th:inline="javascript">
-			var vue = new Vue({
-				el: '#app',
-				data() {
-					return {
-						info: null
-					}
-				},
-				mounted() {
-					axios
-					.get('http://localhost:8080/user/123456789')
-					.then(response => (this.info = response))
-					.catch(response => Console.log(response))
-				}
-			});
+        <div class="login-screen-box">
+            <div id="login" class="login-box">
+                <form th:action="@{/login}" method="post">
+                    <div class="login-way-box">
+                        <div class="login-way">账户登录</div>
+                    </div>
+                    <div class="login-content-box active">
+
+                        <div class="login-content">
+                            <div class="login-input-box">
+                                <div class="login-input-name">用户名</div>
+                                <input id="userName" name="userName" class="login-input"/>
+                            </div>
+                        </div>
+                        <div class="login-content">
+                            <div class="login-input-box">
+                                <div class="login-input-name">密码</div>
+                                <input id="passWord" name="passWord" class="login-input"/>
+                            </div>
+                        </div>
+                        <div class="login-content">
+                            <div class="login-input-box">
+                                <div class="login-input-name">验证码</div>
+                                <input id="code" name="code" class="login-input"/>
+                            </div>
+                            <div class="login-code">
+                                <img id="getYzm" name="getYzm" src=""/>
+                            </div>
+                        </div>
+                        <div class="login-error"></div>
+                        <input type="button" id="login-btn" v-on:click="post()" class="login-btn" value="登录"/>
+                        <a href="forgetPassword.html" class="forgot-password"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--banner wlp end-->
+    <div class="bottom-box">© 综合管理平台</div>
+</div>
+<script th:inline="javascript">
+    $("#getYzm").click(function(){
+        var num=Math.ceil(Math.random()*10);
+        var url = [[@{/code}]]+ '?'+num;
+        this.src = url;
+    }).click().show();
+
+
 
 </script>
-	<script th:src = "@{js/vue.js}"></script>
-	<script th:src = "@{js/axios/axios.js}"></script>
+<script th:inline="javascript">
+var params = new URLSearchParams();
+params.append('passWord', 'value1');
+params.append('userName', 'value2');
+params.append('code', 'value3');
+axios.post(
+           [[@{/login}]],params
+                    ).then(res => {
+                      console.info(res.data)
+                    }).catch((error) => {
+                      console.info(error)
+                    });
+<!--var vue = new Vue({-->
+            <!--el: '#login',-->
+            <!--data() {-->
+                <!--return {-->
+				<!--}-->
+			<!--},-->
+			<!--mounted() {-->
+			    <!--post() {-->
+                    <!--axios.post(-->
+                        <!--[[@{/login}]],-->
+                        <!--{passWord: '1',-->
+                        <!--userName: '2',-->
+                        <!--code: '123'},-->
+                        <!--{ headers:{ 'Content-Type':'application/x-www-form-urlencoded' }}-->
+                    <!--).then(res => {-->
+                      <!--console.info(res.data)-->
+                    <!--}).catch((error) => {-->
+                      <!--console.info(error)-->
+                    <!--});-->
+                <!--}-->
+			<!--}-->
+		<!--});-->
+</script>
 </body>
 
 </html>
