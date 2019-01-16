@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform"
 >
 
 <head>
@@ -38,26 +39,26 @@
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">用户名</div>
-                                <input id="userName" name="userName" class="login-input"/>
+                                <input id="username" name="username" class="login-input"/>
                             </div>
                         </div>
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">密码</div>
-                                <input id="passWord" name="passWord" class="login-input"/>
+                                <input type="password" id="password" name="password" class="login-input"/>
                             </div>
                         </div>
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">验证码</div>
-                                <input id="code" name="code" class="login-input"/>
+                                <input id="captchaCode" name="captchaCode" class="login-input"/>
                             </div>
                             <div class="login-code">
-                                <img id="getYzm" name="getYzm" src=""/>
+                                <img id="code" src=""/>
                             </div>
                         </div>
                         <div class="login-error"></div>
-                        <input type="button" id="login-btn" v-on:click="post()" class="login-btn" value="登录"/>
+                        <input type="submit" id="login-btn"  class="login-btn" value="登录"/>
                         <a href="forgetPassword.html" class="forgot-password"></a>
                     </div>
                 </form>
@@ -68,7 +69,7 @@
     <div class="bottom-box">© 综合管理平台</div>
 </div>
 <script th:inline="javascript">
-    $("#getYzm").click(function(){
+    $("#code").click(function(){
         var num=Math.ceil(Math.random()*10);
         var url = [[@{/code}]]+ '?'+num;
         this.src = url;
@@ -78,17 +79,17 @@
 
 </script>
 <script th:inline="javascript">
-var params = new URLSearchParams();
-params.append('passWord', 'value1');
-params.append('userName', 'value2');
-params.append('code', 'value3');
-axios.post(
-           [[@{/login}]],params
-                    ).then(res => {
-                      console.info(res.data)
-                    }).catch((error) => {
-                      console.info(error)
-                    });
+<!--var params = new URLSearchParams();-->
+<!--params.append('passWord', 'value1');-->
+<!--params.append('userName', 'value2');-->
+<!--params.append('code', 'value3');-->
+<!--axios.post(-->
+           <!--[[@{/login}]],params-->
+                    <!--).then(res => {-->
+                      <!--console.info(res.data)-->
+                    <!--}).catch((error) => {-->
+                      <!--console.info(error)-->
+                    <!--});-->
 <!--var vue = new Vue({-->
             <!--el: '#login',-->
             <!--data() {-->

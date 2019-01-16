@@ -1,6 +1,7 @@
 package com.arthome.config;
 
 
+import com.arthome.filter.CaptchaFormAuthenticationFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -8,6 +9,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ import java.util.Map;
  * create: 2018-08-01 23:40
  **/
 @Configuration
-public class ShiroConfig implements Logger{
+public class ShiroConfig implements Logger {
 
     //加入注解的使用，不加入这个注解不生效
     @Bean
@@ -70,7 +72,7 @@ public class ShiroConfig implements Logger{
         //管理员，需要角色权限 “admin”
         filterMap.put("/admin/**", "roles[admin,user]");
         //开放登陆接口
-        filterMap.put("/login/**", "anon");
+        filterMap.put("/login", "authc");
         filterMap.put("/code", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
@@ -86,7 +88,9 @@ public class ShiroConfig implements Logger{
         shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
         //登录成功后跳转页面
         shiroFilterFactoryBean.setSuccessUrl("/index");
-
+        //自定义拦截器
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("authc", new CaptchaFormAuthenticationFilter());
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }

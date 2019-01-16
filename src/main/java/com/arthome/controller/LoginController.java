@@ -53,6 +53,7 @@ public class LoginController implements Logger {
     @RequestMapping(value = "/code", method = RequestMethod.GET)
     public void getYzm(HttpServletResponse response, HttpServletRequest request) {
         System.out.println("a");
+        SecurityUtils a =null;
         try {
             response.setHeader("Pragma", "No-cache");
             response.setHeader("Cache-Control", "no-cache");
@@ -76,22 +77,22 @@ public class LoginController implements Logger {
     public String index() {
         return "index";
     }
-
-    //退出的时候是get请求，主要是用于退出
+    //get
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
+        System.out.println("/sign跳转login");
         return "login";
     }
-
     //post登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request,@Param("userName") String userName, @Param("passWord") String passWord, @Param("code")String code) {
-        System.out.println(userName + "|" + passWord+ "|" + code);
+    public String login(HttpServletRequest request,@Param("password") String username, @Param("password") String password, @Param("captchaCode")String captchaCode) {
+        System.out.println(password + "|" + password+ "|" + captchaCode);
         //添加用户认证信息
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, passWord);
-        //进行验证，这里可以捕获异常，然后返回对应信息
-        subject.login(usernamePasswordToken);
+//        Subject subject = SecurityUtils.getSubject();
+//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(password, password);
+//        //进行验证，这里可以捕获异常，然后返回对应信息
+//        subject.login(usernamePasswordToken);
+        System.out.println("/login跳转index");
         return "index";
     }
 
