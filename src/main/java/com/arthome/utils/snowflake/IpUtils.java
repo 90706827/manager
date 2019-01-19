@@ -1,4 +1,4 @@
-package com.arthome.utils;
+package com.arthome.utils.snowflake;
 
 public class IpUtils {
 	public static String longToIpV4(long longIp) {

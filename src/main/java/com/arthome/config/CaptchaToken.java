@@ -2,9 +2,6 @@ package com.arthome.config;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
 /**
  * ClassName CaptchaToken
  * Description 验证码
@@ -23,16 +20,16 @@ public class CaptchaToken extends UsernamePasswordToken implements Logger {
      * 构造函数
      * 用户名和密码是登录必须的,因此构造函数中包含两个字段
      */
-    public CaptchaToken(String username, String password, String captchaCode,String host) {
+    public CaptchaToken(String username, String password, String captchaCode, String host) {
         // 父类UsernamePasswordToken的构造函数,后两个参数暂不需要, 不设置 rememberMe-是否记住登录
-        super(username, password, false,host);
+        super(username, password, false, host);
         this.captchaCode = captchaCode;
     }
 
     /**
      * 获取验证码
      */
-    public String getCaptchaCode() {
+    String getCaptchaCode() {
         return captchaCode;
     }
 }

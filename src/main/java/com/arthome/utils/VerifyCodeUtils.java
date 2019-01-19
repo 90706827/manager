@@ -176,11 +176,13 @@ public class VerifyCodeUtils {
         //绘制干扰线
         Random random = new Random();
         g2.setColor(getRandColor(160, 200));// 设置线条的颜色
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             int x = random.nextInt(w - 1);
             int y = random.nextInt(h - 1);
             int xl = random.nextInt(6) + 1;
             int yl = random.nextInt(12) + 1;
+
+            g2.setStroke(new BasicStroke(h/13));//设置线的粗细
             g2.drawLine(x, y, x + xl + 40, y + yl + 20);
         }
 

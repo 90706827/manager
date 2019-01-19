@@ -3,7 +3,6 @@ package com.arthome.utils.snowflake;
 
 import com.arthome.exception.UidGenerateException;
 import com.arthome.utils.DateUtils;
-import com.arthome.utils.IpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;

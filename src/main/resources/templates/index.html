@@ -9,7 +9,9 @@
 <div id="box">
     <input type="button" v-on:click="post()" value="点击"/>
 </div>
-<div id="app">{{ info }}</div>
+<div id="app">
+    <a th:href="@{/logout}">退出</a>
+</div>
 
 <script th:inline="javascript">
 			var vue = new Vue({

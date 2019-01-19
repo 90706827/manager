@@ -52,21 +52,19 @@ public class LoginController implements Logger {
 
     @RequestMapping(value = "/code", method = RequestMethod.GET)
     public void getYzm(HttpServletResponse response, HttpServletRequest request) {
-        System.out.println("a");
-        SecurityUtils a =null;
         try {
             response.setHeader("Pragma", "No-cache");
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expires", 0);
             response.setContentType("image/jpeg");
-
             //生成随机字串
             String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
             //存入会话session
             HttpSession session = request.getSession(true);
+            logger.info("后端生成验证码:"+verifyCode.toLowerCase());
             session.setAttribute("_code", verifyCode.toLowerCase());
             //生成图片
-            int w = 146, h = 33;
+            int w = 118, h = 38;
             VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
         } catch (Exception e) {
             logger.error("获取验证码异常：%s", e.getMessage());
@@ -80,27 +78,31 @@ public class LoginController implements Logger {
     //get
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        System.out.println("/sign跳转login");
+        logger.info("默认登录页面Get请求");
         return "login";
     }
     //post登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request,@Param("password") String username, @Param("password") String password, @Param("captchaCode")String captchaCode) {
-        System.out.println(password + "|" + password+ "|" + captchaCode);
+
+        logger.info("登录页面Post请求"+password + "|" + password+ "|" + captchaCode);
         //添加用户认证信息
-//        Subject subject = SecurityUtils.getSubject();
-//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(password, password);
-//        //进行验证，这里可以捕获异常，然后返回对应信息
-//        subject.login(usernamePasswordToken);
-        System.out.println("/login跳转index");
-        return "index";
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.isAuthenticated()){
+            logger.info("用户已经登录跳转首页");
+            return "index";
+        }
+
+        logger.info("用户未登录跳转登录页面");
+        return "redirect:/login";
     }
 
-    //登出
-    @RequestMapping(value = "/logout")
-    public String logout() {
-        return "logout";
-    }
+//    //登出
+//    @RequestMapping(value = "/logout")
+//    public String logout() {
+//        SecurityUtils.getSubject().logout();
+//        return "login";
+//    }
 //    //数据初始化
 //    @RequestMapping(value = "/addUser")
 //    public String addUser(@RequestBody Map<String,Object> map){

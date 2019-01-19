@@ -1,4 +1,4 @@
-package com.arthome.utils;
+package com.arthome.utils.snowflake;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -72,7 +72,8 @@ public class ShiroConfig implements Logger {
         //管理员，需要角色权限 “admin”
         filterMap.put("/admin/**", "roles[admin,user]");
         //开放登陆接口
-        filterMap.put("/login", "authc");
+        filterMap.put("/login", "anon");
+        filterMap.put("/logout", "logout");
         filterMap.put("/code", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
@@ -85,7 +86,7 @@ public class ShiroConfig implements Logger {
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 设置无权限时跳转的 url;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login");
         //登录成功后跳转页面
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器
