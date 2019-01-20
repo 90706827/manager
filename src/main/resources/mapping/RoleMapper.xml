@@ -2,64 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.arthome.mapper.RoleMapper">
   <resultMap id="BaseResultMap" type="com.arthome.entity.Role">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="u_id" jdbcType="VARCHAR" property="uId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_type" jdbcType="VARCHAR" property="roleType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, role_name
+    u_id, role_name, role_type
   </sql>
-  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select r.id,r.role_name from t_u_user u
-    join t_u_user_role ur
-    join t_r_role r
-    on u.id = ur.user_id and r.id = role_id
-    where u.user_name = #{userName,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_r_role
-    where id = #{id,jdbcType=INTEGER}
+    from sh_role
+    where u_id = #{uId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_r_role
-    where id = #{id,jdbcType=INTEGER}
+    <select id="selectRoleByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select r.* from  sh_role r join sh_user_role ur join sh_user u
+        on r.u_id = ur.role_id and ur.user_id = u.u_id
+        where u.user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sh_role
+    where u_id = #{uId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.arthome.entity.Role">
-    insert into t_r_role (id, role_name)
-    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+    insert into sh_role (u_id, role_name, role_type
+      )
+    values (#{uId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arthome.entity.Role">
-    insert into t_r_role
+    insert into sh_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="uId != null">
+        u_id,
       </if>
       <if test="roleName != null">
         role_name,
       </if>
+      <if test="roleType != null">
+        role_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="uId != null">
+        #{uId,jdbcType=VARCHAR},
       </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
+      <if test="roleType != null">
+        #{roleType,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.arthome.entity.Role">
-    update t_r_role
+    update sh_role
     <set>
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
+      <if test="roleType != null">
+        role_type = #{roleType,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arthome.entity.Role">
-    update t_r_role
-    set role_name = #{roleName,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    update sh_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_type = #{roleType,jdbcType=VARCHAR}
+    where u_id = #{uId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -23,6 +23,7 @@ public class CaptchaToken extends UsernamePasswordToken implements Logger {
     public CaptchaToken(String username, String password, String captchaCode, String host) {
         // 父类UsernamePasswordToken的构造函数,后两个参数暂不需要, 不设置 rememberMe-是否记住登录
         super(username, password, false, host);
+        logger.info("设置token");
         this.captchaCode = captchaCode;
     }
 

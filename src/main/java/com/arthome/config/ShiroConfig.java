@@ -2,15 +2,24 @@ package com.arthome.config;
 
 
 import com.arthome.filter.CaptchaFormAuthenticationFilter;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.credential.PasswordService;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.util.SimpleByteSource;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,6 +31,21 @@ import java.util.Map;
  **/
 @Configuration
 public class ShiroConfig implements Logger {
+
+
+    public DefaultHashService defaultHashService(){
+        DefaultHashService hashService =  new DefaultHashService();
+        hashService.setHashAlgorithmName("SHA-512");
+        //私盐，默认无
+        hashService.setPrivateSalt(new SimpleByteSource("manager"));
+        //是否生成公盐，默认false
+        hashService.setGeneratePublicSalt(true);
+        //用于生成公盐。默认就这个
+        hashService.setRandomNumberGenerator(new SecureRandomNumberGenerator());
+        //生成Hash值的迭代次数
+        hashService.setHashIterations(1);
+        return hashService;
+    }
 
     //加入注解的使用，不加入这个注解不生效
     @Bean
@@ -39,7 +63,9 @@ public class ShiroConfig implements Logger {
     public SecurityManager securityManager(ShiroRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
-        securityManager.setRealm(shiroRealm);
+        List<Realm> list = new ArrayList<Realm>();
+        list.add(shiroRealm);
+        securityManager.setRealms(list);
         return securityManager;
     }
 
@@ -67,12 +93,8 @@ public class ShiroConfig implements Logger {
         filterMap.put("/fonts/**", "anon");
         filterMap.put("/images/**", "anon");
         filterMap.put("/js/**", "anon");
-        //用户，需要角色权限 “user”
-        filterMap.put("/user/**", "roles[user,admin]");
-        //管理员，需要角色权限 “admin”
-        filterMap.put("/admin/**", "roles[admin,user]");
         //开放登陆接口
-        filterMap.put("/login", "anon");
+        filterMap.put("/login", "authc");
         filterMap.put("/logout", "logout");
         filterMap.put("/code", "anon");
         //其余接口一律拦截
@@ -86,7 +108,7 @@ public class ShiroConfig implements Logger {
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 设置无权限时跳转的 url;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/login");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/noPower");
         //登录成功后跳转页面
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器

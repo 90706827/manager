@@ -44,6 +44,6 @@ public class UserController {
     public String getUser(@PathParam("id")String id) {
 
 //        return new Gson().toJson(userService.getUserById(2));
-        return new Gson().toJson(roleService.selectUserByUserName("user"));
+        return new Gson().toJson(roleService.selectRoleByUserName("user"));
     }
 }

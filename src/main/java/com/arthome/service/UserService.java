@@ -3,7 +3,7 @@ package com.arthome.service;
 import com.arthome.entity.User;
 import com.arthome.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * ClassName UserService
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
  * Date 2018/12/23 14:52
  * Version 1.0
  **/
-@Service
+@Component
 public class UserService {
 
     @Autowired
     private UserMapper userMapper;
 
-    public User getUserByUserName(String userName) {
-        return userMapper.selectByUserName(userName);
+    public User selectUserByUserName(String userName) {
+        return userMapper.selectUserByUserName(userName);
     }
 }

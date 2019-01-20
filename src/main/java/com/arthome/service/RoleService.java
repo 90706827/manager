@@ -2,6 +2,7 @@ package com.arthome.service;
 
 import com.arthome.entity.Power;
 import com.arthome.entity.Role;
+import com.arthome.entity.User;
 import com.arthome.mapper.PowerMapper;
 import com.arthome.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,13 @@ public class RoleService {
 
     @Autowired
     private RoleMapper roleMapper;
-    @Autowired
-    private PowerMapper powerMapper;
 
-    public List<Role> selectUserByUserName(String userName) {
-        return roleMapper.selectByUserName(userName);
-    }
-
-    public List<Power> selectByRoleId(Integer roleId){
-        return powerMapper.selectByRoleId(roleId);
+    /**
+     * 根据用户id获取用户角色
+     * @param uId
+     * @return
+     */
+    public List<Role> selectRoleByUserName(String uId) {
+        return roleMapper.selectRoleByUserName(uId);
     }
 }

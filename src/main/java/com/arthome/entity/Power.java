@@ -1,16 +1,18 @@
 package com.arthome.entity;
 
 public class Power {
-    private Integer id;
+    private String uId;
 
     private String powerName;
 
-    public Integer getId() {
-        return id;
+    private String powerUrl;
+
+    public String getuId() {
+        return uId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setuId(String uId) {
+        this.uId = uId == null ? null : uId.trim();
     }
 
     public String getPowerName() {
@@ -19,5 +21,13 @@ public class Power {
 
     public void setPowerName(String powerName) {
         this.powerName = powerName == null ? null : powerName.trim();
+    }
+
+    public String getPowerUrl() {
+        return powerUrl;
+    }
+
+    public void setPowerUrl(String powerUrl) {
+        this.powerUrl = powerUrl == null ? null : powerUrl.trim();
     }
 }

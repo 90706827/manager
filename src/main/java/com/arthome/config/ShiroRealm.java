@@ -3,6 +3,7 @@ package com.arthome.config;
 import com.arthome.entity.Power;
 import com.arthome.entity.Role;
 import com.arthome.entity.User;
+import com.arthome.service.PowerService;
 import com.arthome.service.RoleService;
 import com.arthome.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -10,9 +11,11 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -24,9 +27,14 @@ import java.util.List;
  **/
 @Component
 public class ShiroRealm extends AuthorizingRealm implements Logger {
-
+    /**
+     * 账户禁用
+     */
+    private static final String USER_STATUS_FORBIDDEN = "0";
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private PowerService powerService;
     @Autowired
     private UserService userService;
 
@@ -39,51 +47,47 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("————身份认证方法————");
-        // 在自定义的认证过滤器中将验证码保存至KaptchaCodeToken中
-        // 此处的Token就是认证过滤器中实例化的Token,可以直接强制转换
+        logger.info("————身份认证方法————");
+
+        /**
+         * 如果身份验证失败请捕获AuthenticationException或其子类，常见的如：
+         * DisabledAccountException（禁用的帐号）
+         * LockedAccountException（锁定的帐号）
+         * UnknownAccountException（错误的帐号）
+         * ExcessiveAttemptsException（登录失败次数过多）
+         * IncorrectCredentialsException （错误的凭证）
+         * ExpiredCredentialsException（过期的凭证）
+         */
         CaptchaToken captchaToken = (CaptchaToken) token;
-
-        // 获取用户在登录页面输入的验证码
+        Session session = SecurityUtils.getSubject().getSession();
         String loginCaptcha = captchaToken.getCaptchaCode();
-
-        // 验证码未输入
-        if (loginCaptcha == null || "".equals(loginCaptcha)) {
-            // 抛出自定义异常(继承AuthenticationException), Shiro会捕获AuthenticationException异常
-            // 发现该异常时认为登录失败,执行登录失败逻辑,登录失败页中可以判断如果是CaptchaEmptyException时为验证码为空
-            System.out.println("————loginCaptcha 空————");
+        String captcha = session.getAttribute("_code").toString();
+        User user = userService.selectUserByUserName((String)captchaToken.getPrincipal());
+        if (StringUtils.isEmpty(loginCaptcha)) {
+            session.setAttribute("errorMsg","验证码为空！");
+            throw new AuthenticationException("验证码为空！");
         }
-
-        // 获取SESSION中的验证码
-        // Kaptcha在生成验证码时会将验证码放入SESSION中
-        // 默认KEY为KAPTCHA_SESSION_KEY, 可以在Web.xml中配置
-        String sessionCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute("_code");
-
-        // 比较登录输入的验证码和SESSION保存的验证码是否一致
-        if (!loginCaptcha.equals(sessionCaptcha)) {
-            // 抛出自定义异常(继承AuthenticationException), Shiro会捕获AuthenticationException异常
-            // 发现该异常时认为登录失败,执行登录失败逻辑,登录失败页中可以判断如果是CaptchaEmptyException时为验证码错误
-            System.out.println("————loginCaptcha 验证码不正确————");
+        if(!loginCaptcha.equals(captcha)){
+            session.setAttribute("errorMsg","验证码不正确！");
+            throw new AuthenticationException("验证码不正确！");
         }
-        //加这一步的目的是在Post请求的时候会先进认证，然后在到请求
-        if (token.getPrincipal() == null) {
-            return null;
+        if (user == null || !user.getPassWord().equals(new String((char[]) captchaToken.getCredentials()))) {
+            session.setAttribute("errorMsg","用户不存在，或密码错误！");
+            throw new AuthenticationException("用户不存在，或密码错误！");
         }
-        //获取用户信息
-        String name = token.getPrincipal().toString();
-//        User user = userService.getUserByUserName(name);
-        User user = new User();
-        user.setPassWord("admin");
-        user.setUserName("admin");
-        if (user == null) {
-            //这里返回后会报出对应异常
-            throw new AccountException("用户不存在");
+        if(USER_STATUS_FORBIDDEN.equals(user.getAllowStatus())){
+            session.setAttribute("errorMsg","账户被禁用！");
+            throw new DisabledAccountException("账户被禁用！");
         }
-        if (!user.getPassWord().equals(new String((char[]) token.getCredentials()))) {
-            throw new AccountException("密码不正确");
-        }
-        return new SimpleAuthenticationInfo(user.getUserName(), user.getPassWord().toString(), getName());
+        return new SimpleAuthenticationInfo(user, captchaToken.getCredentials(), getName());
     }
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        //仅支持 CaptchaToken 类型的Token
+        return token instanceof CaptchaToken;
+    }
+
 
     /**
      * 获取授权信息
@@ -92,21 +96,28 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        // 因为非正常退出，即没有显式调用 SecurityUtils.getSubject().logout()
+        // (可能是关闭浏览器，或超时)，但此时缓存依旧存在(principals)，所以会自己跑到授权方法里。
+        if (!SecurityUtils.getSubject().isAuthenticated()) {
+            doClearCache(principalCollection);
+            SecurityUtils.getSubject().logout();
+            return null;
+        }
         //获取登录用户名称
-        String userName = (String) principalCollection.getPrimaryPrincipal();
-        //查询用户
-        List<Role> roleList = roleService.selectUserByUserName(userName);
+        User user = (User)principalCollection.getPrimaryPrincipal();
+        //查询用户角色
+        List<Role> roleList = roleService.selectRoleByUserName(user.getUserName());
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (Role role : roleList) {
             //添加角色
             simpleAuthorizationInfo.addRole(role.getRoleName());
-            logger.info("加载角色：{}", role.getRoleName());
-            List<Power> powerList = roleService.selectByRoleId(role.getId());
+            logger.info("加载用户角色：{}", role.getRoleName());
+            List<Power> powerList = powerService.selectPowerByRoleId(role.getuId());
             for (Power power : powerList) {
                 //添加权限
-                simpleAuthorizationInfo.addStringPermission(power.getPowerName());
-                logger.info("加载权限：{}", role.getRoleName());
+                simpleAuthorizationInfo.addStringPermission(power.getPowerUrl());
+                logger.info("加载权限：{}-{}", power.getPowerName(),power.getPowerUrl());
             }
         }
         return simpleAuthorizationInfo;

@@ -2,63 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.arthome.mapper.PowerMapper">
   <resultMap id="BaseResultMap" type="com.arthome.entity.Power">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="u_id" jdbcType="VARCHAR" property="uId" />
     <result column="power_name" jdbcType="VARCHAR" property="powerName" />
+    <result column="power_url" jdbcType="VARCHAR" property="powerUrl" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, power_name
+    u_id, power_name, power_url
   </sql>
-  <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select p.id,p.power_name from t_r_role_power rp
-    join t_p_power p
-    on rp.power_id = p.id
-    where rp.role_id =  #{roleId,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_p_power
-    where id = #{id,jdbcType=INTEGER}
+    from sh_power
+    where u_id = #{uId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_p_power
-    where id = #{id,jdbcType=INTEGER}
+    <select id="selectPowerByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select p.* from sh_power p join sh_role_power rp
+        on p.u_id = rp.power_id
+        where rp.role_id = #{roleId,jdbcType=VARCHAR}
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sh_power
+    where u_id = #{uId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.arthome.entity.Power">
-    insert into t_p_power (id, power_name)
-    values (#{id,jdbcType=INTEGER}, #{powerName,jdbcType=VARCHAR})
+    insert into sh_power (u_id, power_name, power_url
+      )
+    values (#{uId,jdbcType=VARCHAR}, #{powerName,jdbcType=VARCHAR}, #{powerUrl,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arthome.entity.Power">
-    insert into t_p_power
+    insert into sh_power
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="uId != null">
+        u_id,
       </if>
       <if test="powerName != null">
         power_name,
       </if>
+      <if test="powerUrl != null">
+        power_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="uId != null">
+        #{uId,jdbcType=VARCHAR},
       </if>
       <if test="powerName != null">
         #{powerName,jdbcType=VARCHAR},
       </if>
+      <if test="powerUrl != null">
+        #{powerUrl,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.arthome.entity.Power">
-    update t_p_power
+    update sh_power
     <set>
       <if test="powerName != null">
         power_name = #{powerName,jdbcType=VARCHAR},
       </if>
+      <if test="powerUrl != null">
+        power_url = #{powerUrl,jdbcType=VARCHAR},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arthome.entity.Power">
-    update t_p_power
-    set power_name = #{powerName,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    update sh_power
+    set power_name = #{powerName,jdbcType=VARCHAR},
+      power_url = #{powerUrl,jdbcType=VARCHAR}
+    where u_id = #{uId,jdbcType=VARCHAR}
   </update>
 </mapper>

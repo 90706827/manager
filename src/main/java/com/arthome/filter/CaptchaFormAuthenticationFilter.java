@@ -5,9 +5,11 @@ import com.arthome.config.Logger;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.IOException;
 
 /**
  * ClassName CaptchaFormAuthenticationFilter
@@ -25,9 +27,18 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
     protected AuthenticationToken createToken(String username, String password, ServletRequest request, ServletResponse response) {
         // 获取登录请求中用户输入的验证码
         String captchaCode = request.getParameter("captchaCode");
+//        if(StringUtils.isEmpty(username)||StringUtils.isEmpty(password) || StringUtils.isEmpty(captchaCode)){
+//            logger.info("验证Token拦截器，用户信息为空");
+//            return null;
+//        }else{
+//            logger.info("验证Token拦截器，获取请求验证码：{}",captchaCode);
+//            // 返回带验证码的Token,Token会被传入Realm, 在Realm中可以取得验证码
+            return new CaptchaToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
+//        }
+    }
 
-        logger.info("验证Token拦截器，获取请求验证码："+captchaCode);
-        // 返回带验证码的Token,Token会被传入Realm, 在Realm中可以取得验证码
-        return new CaptchaToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
+    @Override
+    protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+        super.saveRequestAndRedirectToLogin(request, response);
     }
 }
