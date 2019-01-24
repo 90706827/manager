@@ -1,16 +1,18 @@
 package com.arthome.entity;
 
 public class Role {
-    private Integer id;
+    private String uId;
 
     private String roleName;
 
-    public Integer getId() {
-        return id;
+    private String roleType;
+
+    public String getuId() {
+        return uId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setuId(String uId) {
+        this.uId = uId == null ? null : uId.trim();
     }
 
     public String getRoleName() {
@@ -19,5 +21,13 @@ public class Role {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName == null ? null : roleName.trim();
+    }
+
+    public String getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(String roleType) {
+        this.roleType = roleType == null ? null : roleType.trim();
     }
 }

@@ -1,22 +1,24 @@
 package com.arthome.mapper;
 
 import com.arthome.entity.User;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String uId);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer id);
+    User selectByPrimaryKey(String uId);
 
-    User selectByUserName(String userName);
+    int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
-    int updateByPrimaryKeySelective(User record);
+    /**
+     * 根据用户名获取用户
+     * @param userName 用户名称
+     * @return 用户
+     */
+    User selectUserByUserName(String userName);
 }

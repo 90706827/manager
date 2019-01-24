@@ -88,13 +88,14 @@ public class LoginController implements Logger {
         logger.info("登录页面Post请求"+password + "|" + password+ "|" + captchaCode);
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
+        logger.info(subject.getSession().getAttribute("errorMsg").toString());
         if(subject.isAuthenticated()){
             logger.info("用户已经登录跳转首页");
             return "index";
         }
 
         logger.info("用户未登录跳转登录页面");
-        return "redirect:/login";
+        return "login";
     }
 
 //    //登出

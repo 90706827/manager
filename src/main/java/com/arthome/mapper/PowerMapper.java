@@ -1,23 +1,26 @@
 package com.arthome.mapper;
 
 import com.arthome.entity.Power;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
+
 public interface PowerMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String uId);
 
     int insert(Power record);
 
     int insertSelective(Power record);
 
-    Power selectByPrimaryKey(Integer id);
+    Power selectByPrimaryKey(String uId);
 
-    List<Power> selectByRoleId(Integer roleId);
+    int updateByPrimaryKeySelective(Power record);
 
     int updateByPrimaryKey(Power record);
 
-    int updateByPrimaryKeySelective(Power record);
+    /**
+     * 根据角色id获取权限
+     * @param uId 角色id
+     * @return 角色所属权限
+     */
+    List<Power> selectPowerByRoleId(String uId);
 }

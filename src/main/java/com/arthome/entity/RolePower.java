@@ -1,23 +1,33 @@
 package com.arthome.entity;
 
 public class RolePower {
-    private Integer roleId;
+    private String uId;
 
-    private Integer powerId;
+    private String roleId;
 
-    public Integer getRoleId() {
+    private String powerId;
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId == null ? null : uId.trim();
+    }
+
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
     }
 
-    public Integer getPowerId() {
+    public String getPowerId() {
         return powerId;
     }
 
-    public void setPowerId(Integer powerId) {
-        this.powerId = powerId;
+    public void setPowerId(String powerId) {
+        this.powerId = powerId == null ? null : powerId.trim();
     }
 }
