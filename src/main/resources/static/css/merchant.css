@@ -3,7 +3,7 @@
 body{font-family: "微软雅黑", sans-serif;margin: 0;min-width: 1000px;overflow-x: hidden;}
 *{cursor:default}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:共用的样式
 *Created on 2017年12月11日
 *Modified date 2017年12月11日
@@ -35,7 +35,7 @@ a:active{text-decoration: none !important;}
 .commonWarnText{width:100%;text-align: center;}
 .loginErrorText{width:100%;text-align:center;color:#00b4ff;display: block;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:主页面头部样式
 *Created on 2017年12月11日
 *Modified date 2017年12月11日
@@ -53,7 +53,7 @@ a:active{text-decoration: none !important;}
 .lpheader-line{width:1px;height: 30px;background-color:#dddddd;margin:5px 12px;}
 .lpheader-text{line-height: 40px;color:#858387;font-size:14px;margin-right: 16px;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:左侧菜单样式
 *Created on 2017年12月11日
 *Modified date 2017年12月13日
@@ -105,7 +105,7 @@ a:active{text-decoration: none !important;}
 .lpmenu-icon-ten{background-image: url(../images/Merchant/menu/menu10.png);}
 .lppanel-heading-active .lpmenu-icon-ten{background-image: url(../images/Merchant/menu/menu10_a.png);}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:内容页面的查询模块和输入模块的样式
 *Created on 2017年12月14日
 *Modified date 2017年12月15日
@@ -161,7 +161,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .glyphicon-arrow-right:before{content: '' !important;}
 
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:查询列表的样式，展示列表样式
 *Created on 2017年12月14日
 *Modified date 2018年03月15日
@@ -209,7 +209,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .lpdetail-table-td-right-none{border-right:none !important;}
 .lpdetail-table-td-left-none{border-left:none !important;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:列表的分页样式
 *Created on 2017年12月15日
 *Modified date 2017年12月15日
@@ -224,7 +224,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .pageBtnBox .pageZhuGaryA{background-color:#f6f8fd;color:#333 !important;}
 .pageBtnBox .pageGaryA{background-color:#f6f8fd;color:#333 !important;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:欢迎页面的样式
 *Created on 2017年12月18日
 *Modified date 2017年12月18日
@@ -233,7 +233,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .lpwelcome-img-text{width:100%;height:40px;padding:0 20px;line-height: 36px;height: 40px;color:#00b4ff;font-size: 20px;position: absolute;left: 0;bottom: -10px;text-align: center;}
 
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:登录
 *Created on 2017年12月18日
 *Modified date 2018年03月14日
@@ -249,7 +249,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .maskImg{width:60px;height:28px;float: right;margin-top:-32px;margin-right: 4px;}
 .lpbanquan-text{text-align: center;width: 100%;font-size: 14px;line-height: 20px;color:#999999;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:操作失败和操作成功，系统报错或者操作超时
 *Created on 2017年12月18日
 *Modified date 2017年12月18日
@@ -261,14 +261,14 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .lpsearch-operate-success{background-image:url(../images/Merchant/svgIcon/success.svg);}
 .lpsearch-operate-text{width:100%;color: #858387;font-size:14px;text-align: center;line-height: 48px;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:loading数据加载
 *Created on 2017年12月18日
 *Modified date 2017年12月18日
 **/
 .loading{position: fixed;left:50%;top:50%;width:100px;height:100px;margin-top:-50px;margin-left:-50px;z-index: 10000;display: none;}
 /**
-*@autor：wangliping
+*@autor：jangni
 *Desccription:输入框或者from表单提交报错
 *Created on 2017年12月18日
 *Modified date 2017年12月18日
@@ -281,7 +281,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .tip-yellow .tip-arrow-left {margin-top:-9px; margin-left:-6px;top:50%;left:0;width:10px;height:20px;background-image:url(../images/Merchant/tip-arrow.png);background-repeat: no-repeat;background-position: -48px 0;}
 
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:输入框或者from表单提交报错
 *Created on 2018年03月14日
 *Modified date 2018年03月14日
@@ -292,7 +292,7 @@ select.lpsearch-select{width:260px !important;padding:0 40px 0 0 !important;}
 .lpoperate-tip-jumpBox{position: absolute;left: 80px;top:56px;text-align: center;width: 180px;line-height: 20px;font-size:12px;}
 .lpmodal-header{padding:6px 15px;}
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:ztree
 *Created on 2018年03月22日
 *Modified date 2018年03月22日

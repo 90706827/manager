@@ -4,7 +4,7 @@ function LoadingFun() {
 
 }
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:页面加载，菜单回显，根据每个页面的pageTitle的值进行判断是哪个菜单
 *Created on 2017年12月12日
 *Modified date 2017年12月12日
@@ -30,7 +30,7 @@ function menuFun() {
 	}
 }
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:菜单收起的
 *Created on 2017年12月12日
 *Modified date 2017年12月12日
@@ -62,7 +62,7 @@ function contentWith() {
 	}
 }
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:操作提示
 *Created on 2018年3月22日
 *Modified date 2018年3月22日
@@ -86,7 +86,7 @@ function YesFun(content) {
 }
 
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:机构数
 *Created on 2018年3月22日
 *Modified date 2018年3月22日

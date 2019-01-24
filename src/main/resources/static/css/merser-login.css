@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:登录页默认清除样式和共用的样式
 *Created on 2018年09月10日
 *Modified date 2018年09月10日
@@ -29,7 +29,7 @@ input{box-shadow:0;background-color:transparent;border:none;outline: none;}
 } 
 	
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:header
 *Created on 2018年09月10日
 *Modified date 2018年09月10日
@@ -39,7 +39,7 @@ input{box-shadow:0;background-color:transparent;border:none;outline: none;}
 .logo{width: 230px;float:left;}
 
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:banner
 *Created on 2018年09月10日
 *Modified date 2018年09月10日
@@ -50,7 +50,7 @@ input{box-shadow:0;background-color:transparent;border:none;outline: none;}
 .banner-img{height:600px;background-repeat: no-repeat;background-size: cover;background-position: top center;position: absolute;left: 0;top: 0;width: 100%;display: none;background-image: url(../images/mananerImg/banner_bg.jpg);}
 .banner-img:first-child{display: block;}
 /*
-*@autor：wangliping
+*@autor：jangni
 *Desccription:登录的输入框
 *Created on 2018年09月10日
 *Modified date 2018年09月10日
