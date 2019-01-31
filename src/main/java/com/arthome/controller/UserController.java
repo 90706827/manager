@@ -1,14 +1,14 @@
 package com.arthome.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.google.gson.Gson;
 import com.arthome.service.RoleService;
 import com.arthome.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 
@@ -19,7 +19,7 @@ import javax.websocket.server.PathParam;
  * Date 2018/12/23 14:50
  * Version 1.0
  **/
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -41,9 +41,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String getUser(@PathParam("id")String id) {
+    public String getUser(@PathParam("id") String id) {
 
 //        return new Gson().toJson(userService.getUserById(2));
         return new Gson().toJson(roleService.selectRoleByUserName("user"));
+    }
+
+    @RequestMapping(value = "/list")
+    public String list() {
+        return "user/list";
     }
 }

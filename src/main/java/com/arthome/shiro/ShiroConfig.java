@@ -1,10 +1,10 @@
-package com.arthome.config;
+package com.arthome.shiro;
 
 
-import com.arthome.filter.CaptchaFormAuthenticationFilter;
-import org.apache.shiro.authc.credential.DefaultPasswordService;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authc.credential.PasswordService;
+import com.arthome.config.Logger;
+import com.arthome.service.UserService;
+import com.arthome.shiro.CaptchaFormAuthenticationFilter;
+import com.arthome.shiro.ShiroRealm;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.mgt.SecurityManager;
@@ -32,20 +32,6 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig implements Logger {
 
-
-    public DefaultHashService defaultHashService(){
-        DefaultHashService hashService =  new DefaultHashService();
-        hashService.setHashAlgorithmName("SHA-512");
-        //私盐，默认无
-        hashService.setPrivateSalt(new SimpleByteSource("manager"));
-        //是否生成公盐，默认false
-        hashService.setGeneratePublicSalt(true);
-        //用于生成公盐。默认就这个
-        hashService.setRandomNumberGenerator(new SecureRandomNumberGenerator());
-        //生成Hash值的迭代次数
-        hashService.setHashIterations(1);
-        return hashService;
-    }
 
     //加入注解的使用，不加入这个注解不生效
     @Bean
@@ -83,7 +69,7 @@ public class ShiroConfig implements Logger {
      * serverName 是你访问的 Host，8081 是 Port 端口，queryString 是你访问的 URL 里的 ? 后面的参数
      */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager, PassWordService passWordService, UserService userService) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 设置拦截器
@@ -94,7 +80,6 @@ public class ShiroConfig implements Logger {
         filterMap.put("/images/**", "anon");
         filterMap.put("/js/**", "anon");
         //开放登陆接口
-        filterMap.put("/login", "authc");
         filterMap.put("/logout", "logout");
         filterMap.put("/code", "anon");
         //其余接口一律拦截
@@ -108,13 +93,15 @@ public class ShiroConfig implements Logger {
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 设置无权限时跳转的 url;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/noPower");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login");
         //登录成功后跳转页面
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-        filters.put("authc", new CaptchaFormAuthenticationFilter());
+        filters.put("authc", new CaptchaFormAuthenticationFilter(passWordService,userService));
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
+
+
 }

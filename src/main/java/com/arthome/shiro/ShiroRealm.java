@@ -1,5 +1,6 @@
-package com.arthome.config;
+package com.arthome.shiro;
 
+import com.arthome.config.Logger;
 import com.arthome.entity.Power;
 import com.arthome.entity.Role;
 import com.arthome.entity.User;
@@ -32,11 +33,19 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
      */
     private static final String USER_STATUS_FORBIDDEN = "0";
     @Autowired
-    private RoleService roleService;
+    private PassWordService passWordService;
     @Autowired
     private PowerService powerService;
     @Autowired
+    private RoleService roleService;
+    @Autowired
     private UserService userService;
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        //仅支持 CaptchaToken 类型的Token
+        return token instanceof CaptchaToken;
+    }
 
     /**
      * 获取身份验证信息
@@ -60,34 +69,22 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
          */
         CaptchaToken captchaToken = (CaptchaToken) token;
         Session session = SecurityUtils.getSubject().getSession();
-        String loginCaptcha = captchaToken.getCaptchaCode();
         String captcha = session.getAttribute("_code").toString();
-        User user = userService.selectUserByUserName((String)captchaToken.getPrincipal());
-        if (StringUtils.isEmpty(loginCaptcha)) {
-            session.setAttribute("errorMsg","验证码为空！");
-            throw new AuthenticationException("验证码为空！");
-        }
-        if(!loginCaptcha.equals(captcha)){
-            session.setAttribute("errorMsg","验证码不正确！");
+        User user = userService.selectUserByUserName((String) captchaToken.getPrincipal());
+        if (captcha==null || !captcha.equals(captchaToken.getCaptchaCode())) {
+            session.setAttribute("errorMsg", "验证码不正确！");
             throw new AuthenticationException("验证码不正确！");
         }
-        if (user == null || !user.getPassWord().equals(new String((char[]) captchaToken.getCredentials()))) {
-            session.setAttribute("errorMsg","用户不存在，或密码错误！");
-            throw new AuthenticationException("用户不存在，或密码错误！");
-        }
-        if(USER_STATUS_FORBIDDEN.equals(user.getAllowStatus())){
-            session.setAttribute("errorMsg","账户被禁用！");
+//        if (user == null || !passWordService.passwordsMatch(String.valueOf(captchaToken.getPassword()), user.getPassSalt(), user.getPassWord())) {
+//            session.setAttribute("errorMsg", "用户不存在，或密码错误！");
+//            throw new AuthenticationException("用户不存在，或密码错误！");
+//        }
+        if (USER_STATUS_FORBIDDEN.equals(user.getAllowStatus())) {
+            session.setAttribute("errorMsg", "账户被禁用！");
             throw new DisabledAccountException("账户被禁用！");
         }
-        return new SimpleAuthenticationInfo(user, captchaToken.getCredentials(), getName());
+        return new SimpleAuthenticationInfo(user, user.getPassWord(), getName());
     }
-
-    @Override
-    public boolean supports(AuthenticationToken token) {
-        //仅支持 CaptchaToken 类型的Token
-        return token instanceof CaptchaToken;
-    }
-
 
     /**
      * 获取授权信息
@@ -104,7 +101,7 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
             return null;
         }
         //获取登录用户名称
-        User user = (User)principalCollection.getPrimaryPrincipal();
+        User user = (User) principalCollection.getPrimaryPrincipal();
         //查询用户角色
         List<Role> roleList = roleService.selectRoleByUserName(user.getUserName());
         //添加角色和权限
@@ -117,7 +114,7 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
             for (Power power : powerList) {
                 //添加权限
                 simpleAuthorizationInfo.addStringPermission(power.getPowerUrl());
-                logger.info("加载权限：{}-{}", power.getPowerName(),power.getPowerUrl());
+                logger.info("加载权限：{}-{}", power.getPowerName(), power.getPowerUrl());
             }
         }
         return simpleAuthorizationInfo;

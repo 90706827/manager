@@ -1,0 +1,50 @@
+
+<!--菜单-->
+<div xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:fragment="menu"  class="lpmenu-box lpbox-sizing">
+        <div class="lpmenu-boxbg"></div>
+        <table class="lpmenu-contraction">
+            <tr>
+                <td>
+                    <div class="contraction" onclick="menuBoxToggle()"></div>
+                </td>
+            </tr>
+        </table>
+        <div class="lpmenu-content-box">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <!-- 用户管理 -->
+                <div class="lppanel panel">
+                    <div class="lppanel-heading" role="tab" id="headingOne">
+                        <a class="lpbox-sizing" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseOne"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            <span class="lpmenu-icon lpmenu-icon-one"></span>
+                            <span class="lpmenu-title">用户管理</span>
+                            <span class="lpmenu-ui-icon-left lpmenu-ui-icon"></span>
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse lppanel-collapse" role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <a th:href="@{/user/list}" class="lpbox-sizing" lp-menu="user">用户管理</a>
+                    </div>
+                </div>
+                <!-- 菜单管理 -->
+                <div class="lppanel panel">
+                    <div class="lppanel-heading" role="tab" id="headingTwo">
+                        <a class="lpbox-sizing" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo"
+                           aria-expanded="true" aria-controls="collapseTwo">
+                            <span class="lpmenu-icon lpmenu-icon-two"></span>
+                            <span class="lpmenu-title">菜单管理</span>
+                            <span class="lpmenu-ui-icon-left lpmenu-ui-icon"></span>
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse lppanel-collapse" role="tabpanel"
+                         aria-labelledby="headingTwo">
+                        <a th:href="@{/menu/list}" class="lpbox-sizing" lp-menu="menu">菜单管理</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-package com.arthome.config;
+package com.arthome.shiro;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

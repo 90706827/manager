@@ -2,382 +2,109 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<meta name="format-detection" content="telephone=no" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
-	<title>厂家管理</title>
-	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-	<link th:href="@{/css/merchant.css}" rel="stylesheet"/>
-	<link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
+    <title>管理平台</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/merchant.css}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
 </head>
 
 <body>
-	<input type="hidden" value="UserManagement" id="pageTitle" />
-	<div class="lpfixed-content">
-		<div class="lpscrolly-content">
-			<!--内容-->
-			<div class="lpcontent-box">
-				<!--查询-->
-				<form>
-					<div class="lpsearch-box lpcontent-shadow">
-						<div class="lppage">当前位置：用户信息管理&nbsp;&nbsp;&nbsp;〉&nbsp;&nbsp;&nbsp;用户管理</div>
-						<table class="lpsearch-table">
-							<tbody>
-								<tr>
-									<td class="lpsearch-label"><span class="lprequired" title="必填">*</span>用户分组：</td>
-									<td>
-										<div class="lpsearch-selectBox lpbox-sizing">
-											<div class="lpselect-down"></div>
-											<select class="lpsearch-select lpbox-sizing clear-select">
-												<option>请选择</option>
-												<option>非总对总退货用户分组非总对总退货用户分组非总对总退货用户分组</option>
-												<option>非总对总U盾用户分组</option>
-											</select>
-										</div>
-									</td>
-									<td class="lpsearch-label">用户登录名：</td>
-									<td><input id="demo-form-name" type="text" value="" class="lpsearch-input lpbox-sizing" placeholder="请输入用户登录名" /></td>
-								</tr>
-								<tr>
-									<td class="lpsearch-label">原交易日期：</td>
-									<td>
-										<div class="lpsearch-date-two-box">
-											<div class="input-group date form_datetime lpsearch-date-two lpbox-sizing" data-date-format="yyyy-mm-dd "
-											 data-link-field="dtp_input1">
-												<input class="form-control lpsearch-date lpbox-sizing" placeholder="起始日期" size="16" type="text" value=""
-												 readonly="readonly" />
-												<span class="input-group-addon lpsearch-addon lpbox-sizing"><span class="glyphicon glyphicon-th lpsearch-date-glyphicon"></span></span>
-											</div>
-											<div class="lpsearch-date--"></div>
-											<div class="input-group date form_datetime lpsearch-date-two lpbox-sizing" data-date-format="yyyy-mm-dd "
-											 data-link-field="dtp_input1">
-												<input class="form-control lpsearch-date lpbox-sizing" placeholder="终止日期" size="16" type="text" value=""
-												 readonly="readonly" />
-												<span class="input-group-addon lpsearch-addon lpbox-sizing"><span class="glyphicon glyphicon-th lpsearch-date-glyphicon"></span></span>
-											</div>
-										</div>
-										<div class="lpsearch-td-wranIcon" data-container="body" data-toggle="popover" data-placement="right"
-										 data-content="退货日期退货日期退货日期退货日期退货日期"></div>
-									</td>
-									<td class="lpsearch-label">退货日期：</td>
-									<td>
-										<div class="lpsearch-date-one-box">
-											<div class="input-group date form_datetime lpsearch-date-one lpbox-sizing" data-date-format="yyyy-mm-dd "
-											 data-link-field="dtp_input1">
-												<input class="form-control lpsearch-date lpbox-sizing " placeholder="退货日期" size="16" type="text" value=""
-												 readonly="readonly" />
-												<span class="input-group-addon lpsearch-addon lpbox-sizing"><span class="glyphicon glyphicon-th lpsearch-date-glyphicon"></span></span>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<table class="lpsearch-tableBtn">
-							<tbody>
-								<tr>
-									<td width="33.33%">
-										<div id="searchList" class="lpsearch-btn lpbg-red">查询</div>
-									</td>
-									<td width="33.33%"><input type="reset" value="重置" class="lpsearch-btn lpbg-yellow" /></td>
-									<td><a href="add.html" class="lpsearch-btn lpbg-blue">新增</a></td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="lpsearch-reminder">注：如果您不选择新密码提示问题，默认则将您旧的密码提示问题更改为新回答</div>
-					</div>
-				</form>
-				<!--列表-->
-				<div class="lplist-box lpcontent-shadow">
-					<div class="lplist-title"></div>
-					<div class="lplist-textTip">没有数据....</div>
-					<div class="lplist-table-box" style="display: none;" id="lplist-table">
-						<div class="lplist-table-scroll">
-							<table class="lplist-table">
-								<thead>
-									<tr>
-										<th>用户分组</th>
-										<th>用户登录名</th>
-										<th>登陆状态</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名：</td>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-										<td class="ellipsis" title="用户登录名：">用户登录名：</td>
-										<td>
-											<table class="lplist-table-btn-box lpbox-sizing">
-												<tbody>
-													<tr>
-														<td>
-															<div class="lplist-btn" title="删除" onClick="commonWarnFun('删除')">删除</div>
-														</td>
-														<td><a href="paw.html" class="lplist-btn" title="编辑">编辑</a></td>
-														<td><a class="lplist-btn" title="解绑" onClick="commonWarnFun('解绑')">解绑</a></td>
-														<td><a href="detail.html" class="lplist-btn" title="详情">详情</a></td>
-													</tr>
-												</tbody>
-											</table>
-										</td>
-									</tr>
-									<tr>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名：</td>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-										<td class="ellipsis" title="用户登录名：">用户登录名：</td>
-										<td>
-											<table class="lplist-table-btn-box lpbox-sizing">
-												<tbody>
-													<tr>
-														<td>
-															<div class="lplist-btn" title="删除" onClick="commonWarnFun('删除')">删除</div>
-														</td>
-														<td><a href="paw.html" class="lplist-btn" title="编辑">编辑</a></td>
-														<td><a class="lplist-btn" title="解绑" onClick="commonWarnFun('解绑')">解绑</a></td>
-														<td><a href="detail.html" class="lplist-btn" title="详情">详情</a></td>
-													</tr>
-												</tbody>
-											</table>
-										</td>
-									</tr>
-									<tr>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名：</td>
-										<td class="ellipsis" title="用户登录名用户登录名用户登录名用户登录名用户登录名">用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-										<td class="ellipsis" title="用户登录名：">用户登录名：</td>
-										<td>
-											<table class="lplist-table-btn-box lpbox-sizing">
-												<tbody>
-													<tr>
-														<td>
-															<div class="lplist-btn" title="删除" onClick="commonWarnFun('删除')">删除</div>
-														</td>
-														<td><a href="paw.html" class="lplist-btn" title="编辑">编辑</a></td>
-														<td><a class="lplist-btn" title="解绑" onClick="commonWarnFun('解绑')">解绑</a></td>
-														<td><a href="detail.html" class="lplist-btn" title="详情">详情</a></td>
-													</tr>
-												</tbody>
-											</table>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="pagination">
-							<div class="pageBtnBox">
-								<a class="pageGaryA" style="margin-right: 10px;" data-toggle="tooltip" title="不能操作">首页</a>
-								<a class="pageGaryA" data-toggle="tooltip" title="不能操作">上一页</a>
-							</div>
-							<div class="pageText">
-								<span class="pageText">第<span class="textZhu">0</span>页/共<span class="textZhu">0</span>
-									页&nbsp;&nbsp;总共<span class="textZhu">0</span>条</span>
-							</div>
-							<div class="pageBtnBox">
-								<a class="pageGaryA" style="margin-right: 10px;" data-toggle="tooltip" th:title="不能操作">下一页</a>
-								<a class="pageGaryA" data-toggle="tooltip" th:title="不能操作">末页</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--菜单-->
-			<div class="lpmenu-box lpbox-sizing">
-				<div class="lpmenu-boxbg"></div>
-				<table class="lpmenu-contraction">
-					<tr>
-						<td>
-							<div class="contraction" onclick="menuBoxToggle()"></div>
-						</td>
-					</tr>
-				</table>
-				<div class="lpmenu-content-box">
-					<div id="accordion" role="tablist" aria-multiselectable="true">
-						<!-- 设备管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab" id="headingOne">
-								<a class="lpbox-sizing" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-								 aria-expanded="true" aria-controls="collapseOne">
-									<span class="lpmenu-icon lpmenu-icon-one"></span>
-									<span class="lpmenu-title">设备管理</span>
-									<span class="lpmenu-ui-icon-left lpmenu-ui-icon"></span>
-								</a>
-							</div>
-							<div id="collapseOne" class="panel-collapse collapse lppanel-collapse" role="tabpanel" aria-labelledby="headingOne">
-								<a href="factoryManage.html" class="lpbox-sizing" lp-menu="factoryManage">厂家管理</a>
-								<a href="index.html" class="lpbox-sizing" lp-menu="UserManagement">产品型号</a>
-								<a href="loadEquipmentDetail.html" class="lpbox-sizing" lp-menu="loadEquipmentDetail">导出设备明细</a>
-								<a href="javascript:;" class="lpbox-sizing" lp-menu="">设备明细</a>
-							</div>
-						</div>
-						<!-- 应用管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading">
-								<!-- lp-menu 对应每个页面的 pageTitle -->
-								<a class="lpbox-sizing" href="QuickPayHistoryQuery.html" lp-menu="QuickPayHistoryQuery">
-									<span class="lpmenu-icon lpmenu-icon-two"></span>
-									<span class="lpmenu-title">应用管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 应用分组 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-three"></span>
-									<span class="lpmenu-title">应用分组</span>
-								</a>
-							</div>
-						</div>
-						<!-- 参数维护 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-four"></span>
-									<span class="lpmenu-title">参数维护</span>
-								</a>
-							</div>
-						</div>
-						<!-- 母POS管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-five"></span>
-									<span class="lpmenu-title">母POS管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 终端TUSN管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-six"></span>
-									<span class="lpmenu-title">终端TUSN管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 设备主密钥管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class=" lpbox-sizing" href="#" lp-menu="">
-								<span class="lpmenu-icon lpmenu-icon-seven"></span>
-								<span class="lpmenu-title">设备主密钥管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 设备主密钥管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-eight"></span>
-									<span class="lpmenu-title">OTA管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 参数维护 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-nine"></span>
-									<span class="lpmenu-title">底层应用管理</span>
-								</a>
-							</div>
-						</div>
-						<!-- 设备主密钥管理 -->
-						<div class="lppanel panel">
-							<div class="lppanel-heading" role="tab">
-								<a class="lpbox-sizing" href="#" lp-menu="">
-									<span class="lpmenu-icon lpmenu-icon-ten"></span>
-									<span class="lpmenu-title">全辖应用信息</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 菜单结束 -->
-		</div>
-	</div>
-	<!--mian头header-->
-	<div class="lpheader-box lpshadow-down lpbox-sizing">
-		<a href="welcome.html" class="lplogo lppull-left"></a>
-		<a class="lppull-right lpexit-box" title="退出" href="login.html">
-			<div class="lpexit"></div>
-		</a>
-		<div class="lppull-right lpheader-text" title="用户名"><span class="lppull-left lpheader-user lphelp"></span>admin1002</div>
-	</div>
-	<!--加载-->
-	<div id="LoadingBlack" class="modal fade hide" style="border:none;padding:0;" tabindex="-1" role="dialog" backdrop="true"
-	 aria-hidden="true"></div>
-	<img id="Loading" class="loading" th:src="@{/images/Merchant/loading.gif}"/>
-	<!--提示-->
-	<div class="modal fade " id="commonWarn" tabindex="-1" role="dialog" aria-labelledby="commonWarn" backdrop="true"
-	 aria-hidden="true">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-header lpmodal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4>提示</h4>
-				</div>
-				<div class="modal-body">
-					<div class="commonWarnText" id="commonWarnText"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="lpsearch-btn lpbg-yellow lppull-left" data-dismiss="modal">取消</button>
-					<button type="button" class="lpsearch-btn lpbg-red lppull-right" data-dismiss="modal" data-toggle="modal"
-					 data-target="#LoadingBlack" id="commonWarnYes">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--提示是否成功-->
-	<div class="lpoperate-tipbox">
-		<div class="lpoperate-tip-icon lpsearch-operate-success"></div>
-		<div class="lpoperate-tip-text lpcolor-blue">保存1231231231231231231成功</div>
-	</div>
-	<!--列表详情-->
-	<div class="modal fade" id="tanDetail" tabindex="-1" role="dialog" aria-labelledby="tanDetail" backdrop="true"
-	 aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title">详情</h4>
-				</div>
-				<div class="modal-body">
-					<div class="lpdetail-table-box">
-						<table class="lpdetail-table">
-							<tbody>
-								<tr>
-									<td class="lpdetail-table-name" width="90">用户分组</td>
-									<td>用户分组用户分组用户分组用户分组用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-								</tr>
-								<tr>
-									<td class="lpdetail-table-name">用户登录名</td>
-									<td>用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-								</tr>
-								<tr>
-									<td class="lpdetail-table-name">登陆状态</td>
-									<td>用户分组用户分组用户分组用户分组用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="lpsearch-btn lpbg-red" data-dismiss="modal">我知道了</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
-	<script th:src="@{/js/merchant.js}"></script>
-	<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
-	<script th:src="@{/js/bootstrap-datetimepicker.fr.js}"></script>
-	<script th:src="@{/js/jquery.poshytip.js}"></script>
-	<script th:src="@{/js/sh_main.min.js}"></script>
-	<script>
+<div class="lpfixed-content">
+    <div class="lpscrolly-content">
+        <!--内容-->
+        <div class="lpcontent-box">
+            <div class="lpwelcome-img-box">
+                <div class="lpwelcome-img"></div>
+                <div class="lpwelcome-img-text lpbox-sizing">欢迎登录<br/>管理平台</div>
+            </div>
+        </div>
+        <!--菜单-->
+        <div th:replace="common/menu :: menu"></div>
+        <!-- 菜单结束 -->
+    </div>
+</div>
+<!--mian头header-->
+<div th:replace="common/head :: head"></div>
+<!--加载-->
+<div id="LoadingBlack" class="modal fade hide" style="border:none;padding:0;" tabindex="-1" role="dialog"
+     backdrop="true"
+     aria-hidden="true"></div>
+<img id="Loading" class="loading" th:src="@{/images/Merchant/loading.gif}"/>
+<!--提示-->
+<div class="modal fade " id="commonWarn" tabindex="-1" role="dialog" aria-labelledby="commonWarn" backdrop="true"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header lpmodal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4>提示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="commonWarnText" id="commonWarnText"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="lpsearch-btn lpbg-yellow lppull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="lpsearch-btn lpbg-red lppull-right" data-dismiss="modal"
+                        data-toggle="modal"
+                        data-target="#LoadingBlack" id="commonWarnYes">确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--提示是否成功-->
+<div class="lpoperate-tipbox">
+    <div class="lpoperate-tip-icon lpsearch-operate-success"></div>
+    <div class="lpoperate-tip-text lpcolor-blue">保存1231231231231231231成功</div>
+</div>
+<!--列表详情-->
+<div class="modal fade" id="tanDetail" tabindex="-1" role="dialog" aria-labelledby="tanDetail" backdrop="true"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="lpdetail-table-box">
+                    <table class="lpdetail-table">
+                        <tbody>
+                        <tr>
+                            <td class="lpdetail-table-name" width="90">用户分组</td>
+                            <td>用户分组用户分组用户分组用户分组用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
+                        </tr>
+                        <tr>
+                            <td class="lpdetail-table-name">用户登录名</td>
+                            <td>用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
+                        </tr>
+                        <tr>
+                            <td class="lpdetail-table-name">登陆状态</td>
+                            <td>用户分组用户分组用户分组用户分组用户登录名用户登录名用户登录名用户登录名用户登录名用户登录名</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="lpsearch-btn lpbg-red" data-dismiss="modal">我知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/merchant.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.fr.js}"></script>
+<script th:src="@{/js/jquery.poshytip.js}"></script>
+<script th:src="@{/js/sh_main.min.js}"></script>
+<script>
 		$("#searchList").click(function () {
 			setTimeout(function () {
 				$('#LoadingBlack').modal('hide');
@@ -446,7 +173,7 @@
 			$(this).parent(".lppanel-collapse").prev(".lppanel-heading").addClass("lppanel-heading-active");
 			$(this).parent(".lppanel-collapse").prev(".lppanel-heading").find(".lpmenu-ui-icon").removeClass("lpmenu-ui-icon-left").addClass("lpmenu-ui-icon-down");
 		});
-	</script>
-</body>
 
+</script>
+</body>
 </html>

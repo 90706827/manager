@@ -1,11 +1,11 @@
-package com.arthome.filter;
+package com.arthome.shiro;
 
-import com.arthome.config.CaptchaToken;
 import com.arthome.config.Logger;
+import com.arthome.entity.User;
+import com.arthome.service.UserService;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,6 +20,14 @@ import java.io.IOException;
  **/
 public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter implements Logger {
 
+    private PassWordService passWordService;
+    private UserService userService;
+
+    public CaptchaFormAuthenticationFilter(PassWordService passWordService, UserService userService) {
+        this.passWordService = passWordService;
+        this.userService = userService;
+    }
+
     /**
      * 构造Token,重写Shiro构造Token的方法,增加验证码
      */
@@ -27,14 +35,8 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
     protected AuthenticationToken createToken(String username, String password, ServletRequest request, ServletResponse response) {
         // 获取登录请求中用户输入的验证码
         String captchaCode = request.getParameter("captchaCode");
-//        if(StringUtils.isEmpty(username)||StringUtils.isEmpty(password) || StringUtils.isEmpty(captchaCode)){
-//            logger.info("验证Token拦截器，用户信息为空");
-//            return null;
-//        }else{
-//            logger.info("验证Token拦截器，获取请求验证码：{}",captchaCode);
-//            // 返回带验证码的Token,Token会被传入Realm, 在Realm中可以取得验证码
-            return new CaptchaToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
-//        }
+        User user = userService.selectUserByUserName(username);
+        return new CaptchaToken(username, passWordService.encryptPassword(password, user.getPassSalt()), captchaCode, user.getPassSalt(), WebUtils.toHttp(request).getRemoteAddr());
     }
 
     @Override

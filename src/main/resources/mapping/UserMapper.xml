@@ -8,12 +8,13 @@
     <result column="phone_no" jdbcType="VARCHAR" property="phoneNo" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
+    <result column="pass_salt" jdbcType="VARCHAR" property="passSalt" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
     <result column="allow_status" jdbcType="INTEGER" property="allowStatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    u_id, user_name, nick_name, phone_no, email, pass_word, create_time, login_time, 
+    u_id, user_name, nick_name, phone_no, email, pass_word, pass_salt, create_time, login_time, 
     allow_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -22,25 +23,27 @@
     from sh_user
     where u_id = #{uId,jdbcType=VARCHAR}
   </select>
-    <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from sh_user
-        where user_name = #{userName,jdbcType=VARCHAR}
-    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sh_user
     where u_id = #{uId,jdbcType=VARCHAR}
   </delete>
+
+  <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sh_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
   <insert id="insert" parameterType="com.arthome.entity.User">
     insert into sh_user (u_id, user_name, nick_name, 
       phone_no, email, pass_word, 
-      create_time, login_time, allow_status
-      )
+      pass_salt, create_time, login_time, 
+      allow_status)
     values (#{uId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{phoneNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{allowStatus,jdbcType=INTEGER}
-      )
+      #{passSalt,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{allowStatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arthome.entity.User">
     insert into sh_user
@@ -62,6 +65,9 @@
       </if>
       <if test="passWord != null">
         pass_word,
+      </if>
+      <if test="passSalt != null">
+        pass_salt,
       </if>
       <if test="createTime != null">
         create_time,
@@ -92,6 +98,9 @@
       <if test="passWord != null">
         #{passWord,jdbcType=VARCHAR},
       </if>
+      <if test="passSalt != null">
+        #{passSalt,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -121,6 +130,9 @@
       <if test="passWord != null">
         pass_word = #{passWord,jdbcType=VARCHAR},
       </if>
+      <if test="passSalt != null">
+        pass_salt = #{passSalt,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -140,6 +152,7 @@
       phone_no = #{phoneNo,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       pass_word = #{passWord,jdbcType=VARCHAR},
+      pass_salt = #{passSalt,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
       allow_status = #{allowStatus,jdbcType=INTEGER}

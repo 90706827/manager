@@ -15,6 +15,8 @@ public class User {
 
     private String passWord;
 
+    private String passSalt;
+
     private Date createTime;
 
     private Date loginTime;
@@ -67,6 +69,14 @@ public class User {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord == null ? null : passWord.trim();
+    }
+
+    public String getPassSalt() {
+        return passSalt;
+    }
+
+    public void setPassSalt(String passSalt) {
+        this.passSalt = passSalt == null ? null : passSalt.trim();
     }
 
     public Date getCreateTime() {
