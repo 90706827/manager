@@ -1,8 +1,6 @@
 package com.arthome.shiro;
 
 import com.arthome.config.Logger;
-import com.arthome.entity.User;
-import com.arthome.service.UserService;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -20,14 +18,6 @@ import java.io.IOException;
  **/
 public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter implements Logger {
 
-    private PassWordService passWordService;
-    private UserService userService;
-
-    public CaptchaFormAuthenticationFilter(PassWordService passWordService, UserService userService) {
-        this.passWordService = passWordService;
-        this.userService = userService;
-    }
-
     /**
      * 构造Token,重写Shiro构造Token的方法,增加验证码
      */
@@ -35,11 +25,12 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
     protected AuthenticationToken createToken(String username, String password, ServletRequest request, ServletResponse response) {
         // 获取登录请求中用户输入的验证码
         String captchaCode = request.getParameter("captchaCode");
-        User user = userService.selectUserByUserName(username);
-        if(user==null){
-            return new CaptchaToken(username, password, captchaCode,WebUtils.toHttp(request).getRemoteAddr());
-        }else{
-            return new CaptchaToken(username, passWordService.encryptPassword(password, user.getPassSalt()), captchaCode, user.getPassSalt(),user.getAllowStatus(),user.getPassWord(),false, WebUtils.toHttp(request).getRemoteAddr());
+        if (username.matches("[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}")) {
+            return new EmailToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
+        } else if (username.matches("1(3|4|5|7|8)\\d{9}")) {
+            return new PhoneNoToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
+        } else {
+            return new UserNameToken(username, password, captchaCode, WebUtils.toHttp(request).getRemoteAddr());
         }
     }
 

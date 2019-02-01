@@ -28,6 +28,19 @@
     where u_id = #{uId,jdbcType=VARCHAR}
   </delete>
 
+  <select id="selectUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sh_user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <select id="selectUserByPhoneNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sh_user
+    where phone_no = #{phoneNo,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

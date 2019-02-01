@@ -11,24 +11,23 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
 /**
- * program: java
- * description: 自定义身份和权限认证操作
- * author: Mr.Jangni
- * create: 2018-07-31 23:48
+ * ClassName EmailRealm
+ * Description 邮箱验证
+ * Author Mr.Jangni
+ * Date 2019/2/1 23:23
+ * Version 1.0
  **/
 @Component
-public class ShiroRealm extends AuthorizingRealm implements Logger {
+public class EmailRealm  extends AuthorizingRealm implements Logger {
     /**
      * 账户禁用
      */
@@ -46,7 +45,7 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
     @Override
     public boolean supports(AuthenticationToken token) {
         //仅支持 CaptchaToken 类型的Token
-        return token instanceof CaptchaToken;
+        return token instanceof EmailToken;
     }
 
     /**
@@ -69,22 +68,28 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
          * IncorrectCredentialsException （错误的凭证）
          * ExpiredCredentialsException（过期的凭证）
          */
-        CaptchaToken captchaToken = (CaptchaToken) token;
+        EmailToken emailToken = (EmailToken) token;
         Session session = SecurityUtils.getSubject().getSession();
         String captcha = session.getAttribute("_code").toString();
-        if (captcha==null || !captcha.equals(captchaToken.getCaptchaCode())) {
+        User user = userService.selectUserByEmail(emailToken.getPrincipal().toString());
+        if (captcha == null || !captcha.equals(emailToken.getCaptchaCode())) {
             session.setAttribute("errorMsg", "验证码不正确！");
-//            throw new AuthenticationException("验证码不正确！");
+            throw new AuthenticationException("验证码不正确！");
         }
-        if (!String.valueOf(captchaToken.getPassword()).equals(captchaToken.getDbPassword())) {
-            session.setAttribute("errorMsg", "用户不存在，或密码错误！");
-//            throw new AuthenticationException("用户不存在，或密码错误！");
+        if (user == null){
+            session.setAttribute("errorMsg", "邮箱未注册！");
+            throw new AuthenticationException("邮箱未注册！");
         }
-        if (USER_STATUS_FORBIDDEN.equals(captchaToken.getStatus())) {
+        String password = passWordService.encryptPassword(String.valueOf(emailToken.getPassword()), user.getPassSalt());
+        if (user == null || !password.equals(user.getPassWord())) {
+            session.setAttribute("errorMsg", "用户不存在或密码错误！");
+            throw new AuthenticationException("用户不存在或密码错误！");
+        }
+        if (USER_STATUS_FORBIDDEN.equals(user.getAllowStatus())) {
             session.setAttribute("errorMsg", "账户被禁用！");
-//            throw new DisabledAccountException("账户被禁用！");
+            throw new DisabledAccountException("账户被禁用！");
         }
-        return new SimpleAuthenticationInfo(captchaToken, captchaToken.getDbPassword(), getName());
+        return new SimpleAuthenticationInfo(user, emailToken.getPassword(), getName());
     }
 
     /**

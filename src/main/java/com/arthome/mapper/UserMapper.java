@@ -21,4 +21,21 @@ public interface UserMapper {
      * @return 用户
      */
     User selectUserByUserName(String userName);
+
+    /**
+     * Author Mr.Jangni
+     * Description 根据手机号获取用户
+     * Date 2019/2/1 22:26
+     * Param [phoneNo]
+     * Return com.arthome.entity.User
+     **/
+    User selectUserByPhoneNo(String phoneNo);
+    /**
+     * Author Mr.Jangni
+     * Description 根据邮箱获取用户
+     * Date 2019/2/1 23:28
+     * Param [email]
+     * Return com.arthome.entity.User 
+     **/
+    User selectUserByEmail(String email);
 }

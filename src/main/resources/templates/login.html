@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
-      xmlns:c="http://www.w3.org/1999/XSL/Transform"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
 
 <head>
@@ -9,6 +8,7 @@
     <script th:src="@{/js/jquery-2.2.3.min.js}"></script>
     <script th:src="@{/js/axios/axios.min.js}"></script>
     <script th:src="@{/js/vue/vue.min.js}"></script>
+    <script th:src="@{/js/md5.js}"></script>
     <link th:href="@{/css/merser-login.css}" rel="stylesheet"/>
 </head>
 
@@ -30,7 +30,7 @@
 
         <div class="login-screen-box">
             <div id="login" class="login-box">
-                <form th:action="@{/login}" method="post">
+                <form id="submitForm" th:action="@{/login}" method="post">
                     <div class="login-way-box">
                         <div class="login-way">账户登录</div>
                     </div>
@@ -39,26 +39,27 @@
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">用户名</div>
-                                <input id="username" name="username" class="login-input"/>
+                                <input id="username" name="username" placeholder="用户名 手机号 邮箱" maxlength="30" class="login-input"/>
                             </div>
                         </div>
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">密码</div>
-                                <input type="password" id="password" name="password" class="login-input"/>
+                                <input type="password" id="pass"  class="login-input"/>
+                                <input type="hidden" id="password" name="password" maxlength="20" class="login-input"/>
                             </div>
                         </div>
                         <div class="login-content">
                             <div class="login-input-box">
                                 <div class="login-input-name">验证码</div>
-                                <input id="captchaCode" name="captchaCode" class="login-input"/>
+                                <input id="captchaCode" name="captchaCode" maxlength="4" class="login-input"/>
                             </div>
                             <div class="login-code">
                                 <img id="code" src=""/>
                             </div>
                         </div>
-                        <div class="login-error" th:text="${session.errorMsg}" ></div>
-                        <input type="submit" id="login-btn" class="login-btn" value="登录"/>
+                        <div class="login-error" th:text="${session.errorMsg}"></div>
+                        <input type="button" id="login-btn" class="login-btn" value="登录"/>
                         <a href="forgetPassword.html" class="forgot-password"></a>
                     </div>
                 </form>
@@ -75,44 +76,11 @@
         this.src = url;
     }).click().show();
 
-
-
-
-</script>
-<script th:inline="javascript">
-<!--var params = new URLSearchParams();-->
-<!--params.append('passWord', 'value1');-->
-<!--params.append('userName', 'value2');-->
-<!--params.append('code', 'value3');-->
-<!--axios.post(-->
-           <!--[[@{/login}]],params-->
-                    <!--).then(res => {-->
-                      <!--console.info(res.data)-->
-                    <!--}).catch((error) => {-->
-                      <!--console.info(error)-->
-                    <!--});-->
-<!--var vue = new Vue({-->
-            <!--el: '#login',-->
-            <!--data() {-->
-                <!--return {-->
-				<!--}-->
-			<!--},-->
-			<!--mounted() {-->
-			    <!--post() {-->
-                    <!--axios.post(-->
-                        <!--[[@{/login}]],-->
-                        <!--{passWord: '1',-->
-                        <!--userName: '2',-->
-                        <!--code: '123'},-->
-                        <!--{ headers:{ 'Content-Type':'application/x-www-form-urlencoded' }}-->
-                    <!--).then(res => {-->
-                      <!--console.info(res.data)-->
-                    <!--}).catch((error) => {-->
-                      <!--console.info(error)-->
-                    <!--});-->
-                <!--}-->
-			<!--}-->
-		<!--});-->
+    $("#login-btn").click(function(){
+        var password = $("#pass").val();
+        $("#password").val(hex_md5(password));
+        $("#submitForm").submit();
+    });
 
 </script>
 </body>

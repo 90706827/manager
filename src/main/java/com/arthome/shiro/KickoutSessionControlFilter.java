@@ -31,6 +31,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     private int maxSession = 1;
 
     private SessionManager sessionManager;
+
     private Cache<String, Deque<Serializable>> cacheManager;
 
     public void setKickoutUrl(String kickoutUrl) {

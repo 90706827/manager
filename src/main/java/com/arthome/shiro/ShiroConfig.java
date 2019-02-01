@@ -2,16 +2,10 @@ package com.arthome.shiro;
 
 
 import com.arthome.config.Logger;
-import com.arthome.service.UserService;
-import com.arthome.shiro.CaptchaFormAuthenticationFilter;
-import com.arthome.shiro.ShiroRealm;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.util.SimpleByteSource;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,11 +40,13 @@ public class ShiroConfig implements Logger {
      * 权限管理，配置主要是Realm的管理认证
      */
     @Bean
-    public SecurityManager securityManager(ShiroRealm shiroRealm) {
+    public SecurityManager securityManager(UserNameRealm userNameRealm, PhoneNoRealm phoneNoRealm, EmailRealm emailRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
         List<Realm> list = new ArrayList<>();
-        list.add(shiroRealm);
+        list.add(userNameRealm);
+        list.add(phoneNoRealm);
+        list.add(emailRealm);
         securityManager.setRealms(list);
         return securityManager;
     }
@@ -69,7 +65,7 @@ public class ShiroConfig implements Logger {
      * serverName 是你访问的 Host，8081 是 Port 端口，queryString 是你访问的 URL 里的 ? 后面的参数
      */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager, PassWordService passWordService, UserService userService) {
+    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 设置拦截器
@@ -98,11 +94,9 @@ public class ShiroConfig implements Logger {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-        filters.put("authc", new CaptchaFormAuthenticationFilter(passWordService,userService));
+        filters.put("authc", new CaptchaFormAuthenticationFilter());
 //        filters.put("","");
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
-
-
 }

@@ -21,4 +21,11 @@ public class UserService {
     public User selectUserByUserName(String userName) {
         return userMapper.selectUserByUserName(userName);
     }
+    public User selectUserByPhoneNo(String phoneNo) {
+        return userMapper.selectUserByPhoneNo(phoneNo);
+    }
+    public User selectUserByEmail(String email) {
+        return userMapper.selectUserByEmail(email);
+    }
+
 }

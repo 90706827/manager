@@ -3,6 +3,7 @@ package com.arthome.shiro;
 import org.apache.shiro.authc.credential.PasswordService;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.apache.shiro.crypto.hash.HashRequest;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
@@ -52,8 +53,9 @@ public class PassWordService {
        return cipherText.equals(encryptPassword(passWord,salt));
     }
 
+
     public static void main(String[] args) {
         PassWordService passWordService = new PassWordService();
-        System.out.println(passWordService.encryptPassword("admin","12345"));
+        System.out.println(passWordService.encryptPassword(new Md5Hash("admin").toString(),"12345"));
     }
 }
