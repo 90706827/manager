@@ -4,9 +4,11 @@ package com.arthome.shiro;
 import com.arthome.config.Logger;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,6 +52,16 @@ public class ShiroConfig implements Logger {
         securityManager.setRealms(list);
         return securityManager;
     }
+    @Bean
+    public KickoutSessionControlFilter kickoutSessionControlFilter(CacheManager cacheManager, SessionManager sessionManager){
+        KickoutSessionControlFilter kickout = new KickoutSessionControlFilter();
+        kickout.setCacheManager(cacheManager);
+        kickout.setSessionManager(sessionManager);
+        kickout.setKickoutAfter(false);
+        kickout.setMaxSession(1);
+        kickout.setKickoutUrl("/login");
+        return kickout;
+    }
 
     /**
      * anon	无参，开放权限，可以理解为匿名用户或游客
@@ -65,7 +77,8 @@ public class ShiroConfig implements Logger {
      * serverName 是你访问的 Host，8081 是 Port 端口，queryString 是你访问的 URL 里的 ? 后面的参数
      */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager,
+                                             KickoutSessionControlFilter kickoutSessionControlFilter) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 设置拦截器
@@ -94,6 +107,7 @@ public class ShiroConfig implements Logger {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("authc",kickoutSessionControlFilter);
         filters.put("authc", new CaptchaFormAuthenticationFilter());
 //        filters.put("","");
         System.out.println("Shiro拦截器工厂类注入成功");

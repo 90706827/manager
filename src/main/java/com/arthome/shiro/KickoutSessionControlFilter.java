@@ -1,5 +1,6 @@
 package com.arthome.shiro;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
@@ -7,6 +8,8 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.cache.CacheManager;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.Serializable;
@@ -32,7 +35,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
     private SessionManager sessionManager;
 
-    private Cache<String, Deque<Serializable>> cacheManager;
+    private CacheManager cacheManager;
 
     public void setKickoutUrl(String kickoutUrl) {
         this.kickoutUrl = kickoutUrl;
@@ -50,7 +53,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         this.sessionManager = sessionManager;
     }
 
-    public void setCacheManager(Cache<String, Deque<Serializable>> cacheManager) {
+    public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
     }
 
