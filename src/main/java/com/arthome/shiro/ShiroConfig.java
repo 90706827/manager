@@ -49,7 +49,7 @@ public class ShiroConfig implements Logger {
     public SecurityManager securityManager(ShiroRealm shiroRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
-        List<Realm> list = new ArrayList<Realm>();
+        List<Realm> list = new ArrayList<>();
         list.add(shiroRealm);
         securityManager.setRealms(list);
         return securityManager;
@@ -99,6 +99,7 @@ public class ShiroConfig implements Logger {
         //自定义拦截器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
         filters.put("authc", new CaptchaFormAuthenticationFilter(passWordService,userService));
+//        filters.put("","");
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }

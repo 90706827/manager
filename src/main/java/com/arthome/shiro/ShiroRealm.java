@@ -11,6 +11,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -41,6 +42,7 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
     @Autowired
     private UserService userService;
 
+
     @Override
     public boolean supports(AuthenticationToken token) {
         //仅支持 CaptchaToken 类型的Token
@@ -70,20 +72,19 @@ public class ShiroRealm extends AuthorizingRealm implements Logger {
         CaptchaToken captchaToken = (CaptchaToken) token;
         Session session = SecurityUtils.getSubject().getSession();
         String captcha = session.getAttribute("_code").toString();
-        User user = userService.selectUserByUserName((String) captchaToken.getPrincipal());
         if (captcha==null || !captcha.equals(captchaToken.getCaptchaCode())) {
             session.setAttribute("errorMsg", "验证码不正确！");
-            throw new AuthenticationException("验证码不正确！");
+//            throw new AuthenticationException("验证码不正确！");
         }
-//        if (user == null || !passWordService.passwordsMatch(String.valueOf(captchaToken.getPassword()), user.getPassSalt(), user.getPassWord())) {
-//            session.setAttribute("errorMsg", "用户不存在，或密码错误！");
+        if (!String.valueOf(captchaToken.getPassword()).equals(captchaToken.getDbPassword())) {
+            session.setAttribute("errorMsg", "用户不存在，或密码错误！");
 //            throw new AuthenticationException("用户不存在，或密码错误！");
-//        }
-        if (USER_STATUS_FORBIDDEN.equals(user.getAllowStatus())) {
-            session.setAttribute("errorMsg", "账户被禁用！");
-            throw new DisabledAccountException("账户被禁用！");
         }
-        return new SimpleAuthenticationInfo(user, user.getPassWord(), getName());
+        if (USER_STATUS_FORBIDDEN.equals(captchaToken.getStatus())) {
+            session.setAttribute("errorMsg", "账户被禁用！");
+//            throw new DisabledAccountException("账户被禁用！");
+        }
+        return new SimpleAuthenticationInfo(captchaToken, captchaToken.getDbPassword(), getName());
     }
 
     /**

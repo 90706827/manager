@@ -36,7 +36,11 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
         // 获取登录请求中用户输入的验证码
         String captchaCode = request.getParameter("captchaCode");
         User user = userService.selectUserByUserName(username);
-        return new CaptchaToken(username, passWordService.encryptPassword(password, user.getPassSalt()), captchaCode, user.getPassSalt(), WebUtils.toHttp(request).getRemoteAddr());
+        if(user==null){
+            return new CaptchaToken(username, password, captchaCode,WebUtils.toHttp(request).getRemoteAddr());
+        }else{
+            return new CaptchaToken(username, passWordService.encryptPassword(password, user.getPassSalt()), captchaCode, user.getPassSalt(),user.getAllowStatus(),user.getPassWord(),false, WebUtils.toHttp(request).getRemoteAddr());
+        }
     }
 
     @Override
