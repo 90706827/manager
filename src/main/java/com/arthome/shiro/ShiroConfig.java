@@ -8,15 +8,14 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -45,7 +44,7 @@ public class ShiroConfig implements Logger {
     public SecurityManager securityManager(UserNameRealm userNameRealm, PhoneNoRealm phoneNoRealm, EmailRealm emailRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
-        List<Realm> list = new ArrayList<>();
+        List<Realm> list = new LinkedList<>();
         list.add(userNameRealm);
         list.add(phoneNoRealm);
         list.add(emailRealm);
@@ -63,6 +62,16 @@ public class ShiroConfig implements Logger {
         return kickout;
     }
 
+    @Bean
+    public FilterRegistrationBean delegatingFilterProxy(){
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        DelegatingFilterProxy proxy = new DelegatingFilterProxy();
+        proxy.setTargetFilterLifecycle(true);
+        proxy.setTargetBeanName("shiroFilter");
+        filterRegistrationBean.setFilter(proxy);
+        return filterRegistrationBean;
+    }
+
     /**
      * anon	无参，开放权限，可以理解为匿名用户或游客
      * authc	无参，需要认证
@@ -77,8 +86,7 @@ public class ShiroConfig implements Logger {
      * serverName 是你访问的 Host，8081 是 Port 端口，queryString 是你访问的 URL 里的 ? 后面的参数
      */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager,
-                                             KickoutSessionControlFilter kickoutSessionControlFilter) {
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager,KickoutSessionControlFilter kickoutSessionControlFilter) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 设置拦截器
@@ -93,7 +101,8 @@ public class ShiroConfig implements Logger {
         filterMap.put("/code", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-        filterMap.put("/**", "authc");
+        filterMap.put("/**", "authc,kickout");
+        filterMap.put("/login", "authc");
         filterMap.put("/druid/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
@@ -107,9 +116,8 @@ public class ShiroConfig implements Logger {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //自定义拦截器
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-        filters.put("authc",kickoutSessionControlFilter);
+        filters.put("kickout",kickoutSessionControlFilter);
         filters.put("authc", new CaptchaFormAuthenticationFilter());
-//        filters.put("","");
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }

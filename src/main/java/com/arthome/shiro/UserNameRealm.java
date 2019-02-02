@@ -75,8 +75,12 @@ public class UserNameRealm extends AuthorizingRealm implements Logger {
             session.setAttribute("errorMsg", "验证码不正确！");
             throw new AuthenticationException("验证码不正确！");
         }
+        if (user == null ) {
+            session.setAttribute("errorMsg", "用户不存在或密码错误！");
+            throw new AuthenticationException("用户不存在，或密码错误！");
+        }
         String password = passWordService.encryptPassword(String.valueOf(userNameToken.getPassword()), user.getPassSalt());
-        if (user == null || !password.equals(user.getPassWord())) {
+        if ( !password.equals(user.getPassWord())) {
             session.setAttribute("errorMsg", "用户不存在或密码错误！");
             throw new AuthenticationException("用户不存在，或密码错误！");
         }
